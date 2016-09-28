@@ -1,0 +1,20 @@
+{
+  "name": "eat-free-ios",
+  "version": "0.0.0",
+  "description": "Hello Exponent!",
+  "author": null,
+  "private": true,
+  "main": "main.js",
+  "dependencies": {
+    "@exponent/ex-navigation": "^1.6.0",
+    "@exponent/samples": "^1.0.2",
+    "@exponent/vector-icons": "^1.0.1",
+    "days": "^1.0.2",
+    "exponent": "^10.0.0",
+    "geolib": "^2.0.21",
+    "react": "~15.3.2",
+    "react-native": "github:exponentjs/react-native#sdk-10.1.2",
+    "react-native-blur": "^1.0.1",
+    "time-js": "0.0.5"
+  }
+}

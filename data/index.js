@@ -1,0 +1,247 @@
+import transformRecipe from './transformRecipe';
+
+const recipes = [
+ {
+   "name": "Smoked Salmon and Baby Dill Crostini",
+   "ingredients": "Wild Smoked Salmon 8 oz, Rye Melba Toasts 16, Light Garlic Herb Cheese Spread 8 oz, Fresh Dill 3 sprigs",
+   "calories": 73,
+   "servings": 16,
+   "fats": 3.3,
+   "carbs": 5,
+   "proteins": 5,
+   "tags": "snack",
+   "photo": "http://www.bodybuilding.com/images/2016/march/your-healthy-five-course-easter-brunch-menu-graphics-3.jpg",
+   "directions": "Layer each toast with one tablespoon of garlic herb cheese spread, half an ounce of smoked salmon, and a pinch of fresh dill./2. Serve immediately, or store in fridge."
+ },
+ {
+   "name": "Grilled Fish Soft Tacos",
+   "ingredients": "1 tbsp olive oil, 4 limes, 5 cloves minced garlic, 2 tsp ground cumin, 4 portions swordfish or tuna, 1 avocado, 1/4 red onion, 2 jalapenos, 2 tbsp fresh cilantro, 8 flour tortillas, 8 lettuc leaves",
+   "calories": 468,
+   "servings": 4,
+   "fats": 21,
+   "carbs": 37,
+   "proteins": 31,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2015/bill-phillips_back-to-fit-recipes_graphic-7_grilled-fish-tacos.jpg",
+   "directions": "Preheat grill to medium./ Combine olive oil, juice of 3 limes, 4 garlic cloves, and 1 tsp cumin in a shallow bowl or pie plate. Then add fish to this marinade and let it soak up the flavors for 15 minutes at room temperature, turning once after about 7 minutes./While fish is marinating, in a separate small mixing bowl, stir together the remaining lime juice, garlic, and cumin with diced avocado, onion, jalapenos and cilantro./Place marinated fish on hot grill and cook for approximately 5 minutes, then turn and grill for approximately 5 more minutes, until opaque throughout. Place cooked fish on a cutting board, let it cool slightly, then slice into thin strips./While the grill is still hot, place tortillas directly on it and grill them for about 30 seconds on each side./Place two tortillas on each plate. Put a lettuce leaf in each tortilla, fill with a portion of grilled, sliced fish, and top with tangy avocado salsa. Fold the tortillas over, serve and enjoy!"
+ },
+ {
+   "name": "Arugula Chicken Salad",
+   "ingredients": "1 tbsp olive oil, 10 baby carrots, 1/2 cup red cabbage, 1 cup arugula, 8 oz cubed chicken, 2 tsp sunflower seeds",
+   "calories": 469,
+   "servings": 1,
+   "fats": 12,
+   "carbs": 14,
+   "proteins": 65,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/images/2016/may/5-Healthy-Protein-Packed-Spring-Salad-Recipes-v3_03.jpg",
+   "directions": "Pan fry cubed chicken in a non-stick pan with olive oil. Set aside and allow it to cool./ Chop red cabbage and baby carrots./ Add arugula, carrots, and cabbage to a large salad bowl./ Top salad with sunflower seeds and cooled chicken./ Add your favorite dressing and enjoy."
+ },
+ {
+   "name": "Tuna Apple Salad",
+   "ingredients": "2 tbsp chopped celery, 2 cans of tuna in water, 1 tbsp sweet relish, 1/2 diced apple, 1 pinch of garlic powder, 3 tbsp fat-free mayo",
+   "calories": 327,
+   "servings": 1,
+   "fats": 2,
+   "carbs": 18,
+   "proteins": 60,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/images/2016/may/5-Healthy-Protein-Packed-Spring-Salad-Recipes-v3_02.jpg",
+   "directions": "Drain water from cans and place tuna in a bowl./Finely chop celery and apple and add to tuna./Stir in sweet relish, garlic powder, and mayo."
+ },
+ {
+   "name": "Lemon Quinoa Mint Salad",
+   "ingredients": "3 cups cooked quinoa, 1/2 cup pine nuts, 10 chopped mint leaves, Juice from 1 lemon, 1 tsp sea salt, 1 tbsp basil oil",
+   "calories": 375,
+   "servings": 3,
+   "fats": 19,
+   "carbs": 40,
+   "proteins": 12,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/images/2016/may/5-Healthy-Protein-Packed-Spring-Salad-Recipes-v2_04.jpg",
+   "directions": "Mix mint leaves into cooled quinoa./Add lemon juice./Stir in pine nuts, salt, and oil./Devour by yourself or share with friends!"
+ },
+ {
+   "name": "Sweet and Sour Chicken",
+   "ingredients": "24 oz chicken breast, 2 tsp garlic salt, 1/2 tsp black pepper, 1/2 cup low-sodium chicken broth, 1/2 cup white vinegar, 1/2 cup no-calorie sweetener, 1 tbsp, low sodium soy sauce, 3 tbsp low-sugar ketchup, (optional) cooked brown rice and veggies",
+   "calories": 186,
+   "servings": 4,
+   "fats": 5,
+   "carbs": 1,
+   "proteins": 33,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2015/livefit-sweet-sour-chicken.jpg",
+   "directions": "Cut chicken into bite-sized pieces and place in a large bowl./Season the chicken with the garlic salt and pepper, turning to coat./Cook the chicken over medium/high heat until done (no pink centers)./Meanwhile, whisk together chicken broth, vinegar, sweetener, soy sauce, and ketchup in a medium sauce pan./Bring sauce to a boil and then turn to low heat. Add the arrowroot a little at a time, whisking briskly./Let the sauce set up by continuing to stir for about two minutes./Pour sauce over cooked chicken and serve with brown rice and vegetables."
+ },
+ {
+   "name": "Chicken Pad Thai",
+   "ingredients": "3 cups cooked whole-wheat angel hair pasta, 9 oz chicken breast diced, 1 cup sliced mushrooms, 1/2 cup sliced yellow pepper, 1 tbsp fish sauce, 1/2 cup chopped cilantro, 1 tsp olive oil, 1 tbsp natural peanut butter, 1 tbsp splenda, 1 tbsp red chilli flakes",
+   "calories": 458,
+   "servings": 3,
+   "fats": 14,
+   "carbs": 39,
+   "proteins": 56,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2013/cluck-cluck-boom-cpthai.jpg",
+   "directions": "Prepare the pasta according to package directions./Next, heat the oil in a skillet over medium heat./Add the chicken and cook for 2-3 minutes./Add the chicken and cook for 2-3 minutes./Mix together the fish sauce, peanut butter, Splenda, and chili flakes./Pour over chicken, cover, and simmer for 3-4 minutes./Top with cilantro before serving."
+ },
+ {
+   "name": "Steak Tacos",
+   "ingredients": "1/2 lb flank steak, 1 tbsp lime juice, 1/2 tbsp each: garlic powder; paprika; black pepper; onion powder; cumin; cayenne pepper, 4 corn tortillas, 4 tbsp guacamole, 4 tsp cotija cheese",
+   "calories": 380,
+   "servings": 2,
+   "fats": 18.5,
+   "carbs": 29.5,
+   "proteins": 28,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2013/much-healthier-mexican-4-easy-recipes_c.jpg",
+   "directions": "Marinate the steak with lime juice, garlic powder, paprika, black pepper, onion powder, cumin, and cayenne pepper. Allow to marinate for at least 30 minutes./Grill steak to desired temperature./Let steak rest for 3 minutes and slice thinly against the grain./Assemble tacos with thinly sliced steak, 1 tbsp guacamole, and 1 tsp cotija cheese."
+ },
+ {
+   "name": "Beef Noodle Soup",
+   "ingredients": "1 lb lean ground beef, 2 cups low-sodium beef broth, 1 cup water, 1 cup sliced carrots, 1 cup sliced celery, 2 cups broccoli florets, 1/2 cup snow peas, 1 cup bean sprouts, 1/2 clove garlic, 2 cups angel hair pasta",
+   "calories": 431,
+   "servings": 4,
+   "fats": 18,
+   "carbs": 28.25,
+   "proteins": 37.5,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2014/8-creative-recipes-to-add-lean-ground-beef_07.jpg",
+   "directions": "Brown the beef in a skillet over medium heat. In a pot, boil the beef broth and water./Once boiling, add carrots, celery, and snow peas. Cook for 2-3 minutes. Then add broccoli, bean sprouts, and ground beef; cook for another 1-2 minutes./Stir garlic and pasta, and simmer over low heat for 8 minutes./Serve immediately."
+ },
+ {
+   "name": "BBQ Turkey Wrapped Asparagus",
+   "ingredients": "8 oz low-sodium sliced turkey, 8 thick asparagus spears, 1/2 tsp barbecue sauce",
+   "calories": 28,
+   "servings": 8,
+   "fats": 1,
+   "carbs": 1,
+   "proteins": 6,
+   "tags": "snack",
+   "photo": "http://fitmencook.com/wp-content/uploads/2014/10/DSC_0033-3.jpg",
+   "directions": "Set oven to 450 degrees F./Wash the asparagus, then break the thick ends off the asparagus./Wrap asparagus in 1 ounce of turkey meat./Sear the wrapped asparagus in a nonstick skillet on medium-high heat for 2 minutes so the turkey is \"cooked shut\" or sealed./Remove and place on a baking rack or sheet. Rub with barbecue sauce./Bake in the oven for no more than 5 minutes so that the asparagus remain semi-firm."
+ },
+ {
+   "name": "Lemon Peppered Salmon Filet",
+   "ingredients": "1/2 cup cooked brown rice, 2 tbsp fat-free mayo, 1 tsp lemon pepper seasoning, 2 lemons, 12 oz salmon fillet, 1/2 lb broccoli florets, 3 minced green onions, 2 tbsp minced fresh parsley",
+   "calories": 524,
+   "servings": 2,
+   "fats": 20,
+   "carbs": 44,
+   "proteins": 40,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2015/bill-phillips_back-to-fit-recipes_graphic-9_lemon-peppered-salmon.jpg",
+   "directions": "Prepare brown rice according to package directions./While the rice is cooking, preheat broiler./In a small mixing bowl, combine fat-free mayonnaise, lemon-pepper seasoning, and the juice of one lemon./Lightly coat a broiler pan with cooking spray. Place salmon fillets on the broiler pan (skin-side down) and brush lemon pepper sauce over the top. Broil salmon approximately 6 inches from the broiler until the fillets are cooked through and flake easily with a fork, about 12 to 15 minutes./While the salmon is broiling, steam the broccoli in a covered pan for 6 to 8 minutes or until crisp-tender./Stir the green onion and parsley into the cooked rice./Place portions of salmon and rice on two separate plates along with a serving of broccoli. Top the salmon and broccoli with a squeeze of fresh lemon. Serve and enjoy!"
+ },
+ {
+   "name": "Chicken and Broccoli Casserole",
+   "ingredients": "15 oz chicken breast, 1 cup greek yogurt, 1 cup chicken broth, 1 cup reduced-fat mozzarella, 2 cups cookied quinoa+brown rice mix, 2 cups chopped broccoli, 1/4 cup red onion, 1/2 cup wheat breadcrumbs, 1 tbsp italian seasoning, sea salt and pepper to taste",
+   "calories": 466,
+   "servings": 4,
+   "fats": 12,
+   "carbs": 35,
+   "proteins": 56,
+   "tags": "meal",
+   "photo": "https://pixabay.com/static/uploads/photo/2014/04/14/20/45/scalloped-324243_960_720.jpg",
+   "directions": "Set oven to 375 degrees Fahrenheit./Cook chicken breasts in a nonstick skillet with no seasoning, or boil the chicken breasts in water. Tear the chicken into pieces and set aside./In a bowl, mix chicken, broccoli, brown rice, red onions, Greek yogurt, chicken broth, mozzarella, and Italian seasoning./Evenly divide among the jars or place it all in a large casserole dish./Top with wheat breadcrumbs or amaranth flakes./Bake for 25 minutes."
+ },
+ {
+   "name": "Double Beef Chili",
+   "ingredients": "1 lb chicken sausage, 2lb lean ground beef, 1 can pinto beans, 1 can black beans, 1 can red kidney beans, 2 cans diced tomatoes, 1 can water, 1 cup red wine, 2 carrots, 3 stalks celery, 1 onion, 2 tbsp italian spice, 1 tbsp minced garlic, 1 tbsp cayenne pepper flakes",
+   "calories": 380,
+   "servings": 10,
+   "fats": 6,
+   "carbs": 32,
+   "proteins": 36,
+   "tags": "meal",
+   "photo": "http://www.bodybuilding.com/fun/images/2015/pursuit-rx-paleo-recipes-graphics-5.jpg",
+   "directions": "Brown sausage and beef, then add to a large pot./Saut_ onion and add to pot./Add canned tomatoes and beans to pot./Add carrots and celery to pot./Add wine, water, and spices to the pot/Heat and let simmer for at least two hours./Eat up!"
+ },
+ {
+   "name": "Tangy Balsamic Glaze Wings",
+   "ingredients": "4 lbs drummettes, 1/3 cup balsamic glaze, 1 tbsp chili powder, 1/2 lime juice, chopped fresh green onion for garnish, lime for garnish",
+   "calories": 140,
+   "servings": 8,
+   "fats": 3,
+   "carbs": 7,
+   "proteins": 17.5,
+   "tags": "snack",
+   "photo": "http://www.bodybuilding.com/images/2016/february/3-healthy-chicken-wing-recipes-graphics-tangy-balsalmic.jpg",
+   "directions": "Set oven to 420 degrees F./Trim excess fat and large pieces of skin from the drummettes or wings using a sharp knife or food scissors. This is important to reduce the amount of calories�just be careful not to cut the protein. You can cut the calories of each chicken wing by up to 15 calories! So, imagine if you eat 10 wings�that's 150 fat calories you saved!/Place the wings in a bowl, add a few pinches of sea salt and pepper and mix together./Place the wings on a baking rack or a nonstick baking sheet. Before placing the wings in the oven, spray them with olive oil so that the outside gets somewhat crispy while baking./Bake in the oven for about 35 minutes at 420 degrees F. Keep in mind that cooking times may vary depending on the amount of chicken./Mix together the ingredients for the sauce in a glass bowl. Before tossing the baked wings in the sauce, heat the sauce in the microwave for about 1 minute./Place about a pound of the wings in a large bowl and add a few tablespoons of the sauce of the bowl. Toss the wings in the sauce until all of them are fully coated. A little sauce goes a long way so don't overdo it! Repeat until all the wings have been covered."
+ },
+ {
+   "name": "Protein Packed Chili Dog",
+   "ingredients": "1 lb lean ground turkey breast, 8 oz no salt added tomato sauce, 2 tsp chili powder, 1 tsp garlic powder, 1 tsp cumin, 1 tsp black pepper, 1 tsp crushed red pepper, _ tsp salt, pinch cinnamon,6 low fat turkey hotdogs, 6 light hotdog rolls",
+   "calories": 531,
+   "servings": 3,
+   "fats": 15,
+   "carbs": 44,
+   "proteins": 55,
+   "tags": "meal",
+   "photo": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/chili-dog-feature.jpg",
+   "directions": "Combine all ingredients from ground turkey breast through cinnamon in a pan over medium heat/Cook for 3-4 minutes/Reduce heat to medium/low and allow to simmer/While chili is simmering/Place hotdogs on a heat grilled and cook until desired temperature/Grill rolls, if desired/When hotdogs are done cooking, place into buns/Evenly divide chili among 6 hotdogs/Top with onion/Enjoy!"
+ },
+ {
+   "name": "Low Calorie Pizza Rolls",
+   "ingredients": "1 tube low fat crescent rolls, 1/2 cup pizza sauce, 1/2 cup reduced fat shredded mozzarella cheese",
+   "calories": 116,
+   "servings": 1,
+   "fats": 5,
+   "carbs": 14,
+   "proteins": 5,
+   "tags": "snack",
+   "photo": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/pizza-rolls-feature.jpg",
+   "directions": "Preheat oven to 350 degrees/Line a baking sheet with parchment paper/Roll out crescent dough (do not break into rolls)/Lightly press perforated edges to seal dough/Spoon pizza sauce evenly over dough/Sprinkle with shredded cheese/Roll dough width wise/Place in freezer for 20 minutes/Slice dough into pizza rolls/Place rolls cut side down on a baking sheet/Bake for about 15 minutes or until golden/Allow rolls to cool for about 5 minutes/Serve with extra pizza sauce for dipping, if desired"
+ },
+ {
+   "name": "Rice Krispie Protein Bars",
+   "ingredients": "2 scoops vanilla protein powder, 1/2 cup peanut butter, 1/2 cup honey, 4 cups brown rice krispie cereal, chocolate peanut butter",
+   "calories": 131,
+   "servings": 1,
+   "fats": 4,
+   "carbs": 18,
+   "proteins": 7,
+   "tags": "snack",
+   "photo": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/protein_treats_made_with_rice_krispies.jpg",
+   "directions": "Mix together honey, peanut butter and protein powder/Gently mix in cereal./Line an 8x8in baking pan with parchment paper/Press cereal into pan, evenly/Put in the refrigerator for 20 minutes to set/Cut into squares/Drizzle with chocolate peanut butter"
+ },
+ {
+   "name": "Pulled BBQ ChickenPotato Skins",
+   "ingredients": "2 lbs small dutch potatoes, 1 lb chicken breast, 1/2 cup BBQ sauce, 1 cup reduced fat shredded cheddar cheese",
+   "calories": 327,
+   "servings": 4,
+   "fats": 7,
+   "carbs": 28,
+   "proteins": 38,
+   "tags": "meal",
+   "photo": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/bbq-chicken-potato-skin-recipe.jpg",
+   "directions": "Preheat oven to 425 degrees/Line a baking sheet with foil/Rinse potatoes and pierce with a fork/Place potatoes on a baking sheet and bake for about 1 hour or until tender/While potatoes are cooking, boil chicken for about 8-10 minutes or until cooked through/When chicken is done, shred it by using 2 forks/Toss the chicken with the BBQ sauce and set aside/When potatoes are done, remove from the oven and allow to cool enough to handle/Cut the potatoes in half and scoop out the middle, leaving a small bit of potato along the sides/Evenly divide the pulled BBQ chicken among the potatoes/Sprinkle with shredded cheddar cheese/Return to the oven and bake an additional 20 minutes or until cheese is melted/Finish off with extra BBQ sauce"
+ },
+ {
+   "name": "Grilled Sausage and Turkey Flatbread Pizza",
+   "ingredients": "2 naan or flatbread of choice,6oz ground turkey breast,1 chicken sausage link sliced,1/4 cup favorite pizza sauce,1/4 cup assorted colored bell peppers sliced,1/2 cup low fat mozzarella",
+   "calories": 519,
+   "servings": 2,
+   "fats": 15,
+   "carbs": 53,
+   "proteins": 43,
+   "tags": "meal",
+   "photo": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/grilled-sausage-pizza-feature_0.jpg",
+   "directions": "Heat grill to around 300 degrees/Place each naan/flatbread top side down and grill until crispy/While bread is grilling, cook ground turkey breast in a skillet until cooked through/Once bread is crispy, flip over and top each flatbread with half of the sauce, ground turkey/breast, sausage, bell peppers and cheese/Close grill cover and continue to grill until cheese is melted/Enjoy right away!"
+ },
+ {
+   "name": "Lean Beef Enchiladas",
+   "ingredients": "3 Low-Carb/High-Protein Tortillas,4oz Lean Ground Beef,_ cup No Salt Added Black Beans drained and rinsed,_ cup Red or Green Enchilada Sauce,2 tbsp. Diced Green Chiles,_ cup Low-Fat Mexican Blend ,heese,Salt and Pepper as desired,Green Onions",
+   "calories": 470,
+   "servings": 1,
+   "fats": 14,
+   "carbs": 49,
+   "proteins": 52,
+   "tags": "meal",
+   "photo": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/beef_enchiladas_recipe.jpg",
+   "directions": "Preheat oven to 350 degrees Fahrenheit/In a skillet over medium heat, saute ground beef until cooked/Add in diced chiles, salt and pepper/Transfer meat to a bowl and add in beans/Spread half of the enchilada sauce on the bottom of an oven safe dish/Divide the meat and bean mixture evenly down the middle of the 3 tortillas/Sprinkle with half of the cheese/Roll up tightly and place seam side down in the dish/Spread remaining enchilada sauce on top/Sprinkle with remaining cheese/Bake for 10-12 minutes/Finish off with green onions, diced avocado or a dollop or greek yogurt, if desired"
+ }
+];
+
+
+export default recipes.map(transformRecipe);
