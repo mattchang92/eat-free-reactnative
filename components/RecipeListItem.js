@@ -27,7 +27,7 @@ export default class RecipeListItem extends React.Component {
     } = this.props.recipe;
 
     return (
-      <TouchableNativeFeedback onPress={() => {}} style={styles.container}>
+      <TouchableNativeFeedback onPress={() => {this._handlePressRecipe(this.props.recipe)}} style={styles.container}>
         <View style={styles.logoContainer}>
                   <Image
                     resizeMode="cover"
@@ -39,6 +39,12 @@ export default class RecipeListItem extends React.Component {
       </TouchableNativeFeedback>
     );
   }
+
+  _handlePressRecipe = (recipe) => {
+    console.log('clicked');
+    this.props.navigator.push('details', {recipe});
+  }
+
 }
 
 const styles = StyleSheet.create({

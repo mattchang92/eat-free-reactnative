@@ -14,7 +14,7 @@ import geolib from 'geolib';
 
 import RecipeListItem from './RecipeListItem';
 import recipes from '../data';
-
+import { Router } from '../main';
 
 export default class RecipeList extends React.Component {
   state = {
@@ -22,13 +22,16 @@ export default class RecipeList extends React.Component {
   }
 
   render() {
+    console.log(this);
     return (
       <ScrollView style={styles.container}>
         {
           this.state.recipes.map(recipe => (
             <RecipeListItem
               recipe={recipe}
+              onPress={() => console.log('inside click handle')}
               key={recipe.name}
+              navigator={this.props.navigator}
             />
           ))
         }
@@ -36,6 +39,9 @@ export default class RecipeList extends React.Component {
       </ScrollView>
     );
   }
+
+
+
 }
 
 const styles = StyleSheet.create({

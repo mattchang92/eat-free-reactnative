@@ -15,6 +15,8 @@ import {
 import Exponent, {
   Components,
 } from 'exponent';
+import { NavigationBar } from '@exponent/ex-navigation'
+
 
 import {
   BoldText,
@@ -25,7 +27,7 @@ const { MapView } = Components;
 import recipes from '../data';
 const testrecipe = recipes[1];
 
-export default class BreweryDetails extends React.Component {
+export default class RecipeDetails extends React.Component {
 
   static defaultProps = {
     recipe: testrecipe,
@@ -39,6 +41,8 @@ export default class BreweryDetails extends React.Component {
     let {
       name,
       photo,
+      ingredients,
+      directions,
     } = this.props.recipe;
 
     let {
@@ -60,6 +64,26 @@ export default class BreweryDetails extends React.Component {
       outputRange: [1, 1, 0.2, 0.2],
     });
 
+    // <Animated.ScrollView
+    //   scrollEventThrottle={16}
+    //   style={StyleSheet.absoluteFill}
+    //   contentContainerStyle={{marginTop: 300, backgroundColor: '#fff'}}
+    //   onScroll={Animated.event(
+    //     [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+    //     { useNativeDriver: true }
+    //   )}>
+    //   <Text>{name}</Text>
+    //   <Text>{ingredients}</Text>
+    //   <View style={{height: 1000, width: 320}}>
+    //
+    //   </View>
+    // </Animated.ScrollView>
+    //
+    // <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
+    //   <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
+    //   </View>
+    // </Animated.View>
+
     return (
       <View style={{flex: 1}}>
         <View style={[styles.heroBackground, {backgroundColor: '#1C181B'}]} />
@@ -67,7 +91,7 @@ export default class BreweryDetails extends React.Component {
         <View style={styles.hero}>
           <Animated.Image
             source={{uri: photo}}
-            style={{width: 200, height: 150, opacity: logoOpacity, transform: [{scale: logoScale}, {translateY: logoTranslateY}]}}
+            style={{width: 250, height: 175, opacity: logoOpacity, transform: [{scale: logoScale}, {translateY: logoTranslateY}]}}
             resizeMode="center"
           />
         </View>
@@ -80,34 +104,55 @@ export default class BreweryDetails extends React.Component {
             [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
             { useNativeDriver: true }
           )}>
-          <View style={{height: 1000, width: 320}} />
+          <Text>{name}</Text>
+          <Text>{ingredients}</Text>
+          <View style={{height: 1000, width: 320}}>
+
+          </View>
         </Animated.ScrollView>
 
         <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
-          <View style={styles.navigationBarAction}>
-            <TouchableOpacity>
-              <MaterialIcons
-                name="arrow-back"
-                size={25}
-              />
-            </TouchableOpacity>
+          <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
           </View>
+        </Animated.View>
+
+        {this._renderNavigationBar()}
+
+        <StatusBar barStyle="light-content" />
+      </View>
+    );
+  }
+
+
+    _renderNavigationBar() {
+
+      // <View style={styles.navigationBarTitle}>
+      //   {this._renderNavigationBarTitle()}
+      // </View>
+
+      return (
+        <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
+          <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
+            <NavigationBar.BackButton
+              tintColor={'white'}
+              onPress={() => this.props.navigator.pop() }
+            />
+          </View>
+
 
           <View style={styles.navigationBarAction}>
             <TouchableOpacity>
               <MaterialIcons
                 name="directions"
                 size={25}
-                color='#fff'
+                color={'white'}
               />
-            </TouchableOpacity>
+          </TouchableOpacity>
           </View>
         </Animated.View>
+      );
+    }
 
-        <StatusBar barStyle="light-content" />
-      </View>
-    );
-  }
 
 }
 
