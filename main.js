@@ -20,18 +20,15 @@ import {
 import RecipeListItem from './components/RecipeListItem';
 import recipes from './data';
 
-import RecipeListScreen from './components/RecipeListScreen';
-import RecipeDetailsScreen from './components/RecipeDetailsScreen';
-import {
-  createRouter,
-} from '@exponent/ex-navigation';
 
-export const Router = createRouter(() => ({
-  list: () => RecipeListScreen,
-  details: () => RecipeDetailsScreen,
-}));
+// export const Router = createRouter(() => ({
+//   list: () => RecipeListScreen,
+//   list: function(){ return RecipeListScreen },
+//   list(){ return RecipeListScreen },
+//   details: () => RecipeDetailsScreen,
+// }));
 
-// import Router from './navigation/Router';
+import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
 class AppContainer extends React.Component {
@@ -86,7 +83,7 @@ class AppContainer extends React.Component {
 
     return (
       <NavigationProvider router={Router}>
-        <StackNavigation initialRoute={Router.getRoute('list')} />
+        <StackNavigation initialRoute={Router.getRoute('home')} />
       </NavigationProvider>
     )
   }

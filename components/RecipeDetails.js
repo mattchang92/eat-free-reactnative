@@ -12,10 +12,9 @@ import {
 import {
   MaterialIcons,
 } from '@exponent/vector-icons';
-import Exponent, {
-  Components,
-} from 'exponent';
+import Exponent from 'exponent';
 import { NavigationBar } from '@exponent/ex-navigation'
+import Router from '../navigation/Router';
 
 
 import {
@@ -23,7 +22,6 @@ import {
 } from './StyledText';
 // import formatTime from '../util/formatTime';
 
-const { MapView } = Components;
 import recipes from '../data';
 const testrecipe = recipes[1];
 
@@ -32,10 +30,12 @@ export default class RecipeDetails extends React.Component {
   static defaultProps = {
     recipe: testrecipe,
   }
+  //
+  // state = {
+  //   scrollY: new Animated.Value(0),
+  // }
 
-  state = {
-    scrollY: new Animated.Value(0),
-  }
+
 
   render() {
     let {
@@ -45,71 +45,30 @@ export default class RecipeDetails extends React.Component {
       directions,
     } = this.props.recipe;
 
-    let {
-      scrollY,
-    } = this.state;
 
-    let logoScale = scrollY.interpolate({
-      inputRange: [-150, 0, 150],
-      outputRange: [1.5, 1, 1],
-    });
-
-    let logoTranslateY = scrollY.interpolate({
-      inputRange: [-150, 0, 150],
-      outputRange: [30, 0, -30],
-    });
-
-    let logoOpacity = scrollY.interpolate({
-      inputRange: [-150, 0, 200, 400],
-      outputRange: [1, 1, 0.2, 0.2],
-    });
-
-    // <Animated.ScrollView
-    //   scrollEventThrottle={16}
-    //   style={StyleSheet.absoluteFill}
-    //   contentContainerStyle={{marginTop: 300, backgroundColor: '#fff'}}
-    //   onScroll={Animated.event(
-    //     [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-    //     { useNativeDriver: true }
-    //   )}>
-    //   <Text>{name}</Text>
-    //   <Text>{ingredients}</Text>
-    //   <View style={{height: 1000, width: 320}}>
-    //
-    //   </View>
-    // </Animated.ScrollView>
-    //
-    // <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
-    //   <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
-    //   </View>
-    // </Animated.View>
 
     return (
       <View style={{flex: 1}}>
         <View style={[styles.heroBackground, {backgroundColor: '#1C181B'}]} />
 
         <View style={styles.hero}>
-          <Animated.Image
+          <Image
             source={{uri: photo}}
-            style={{width: 250, height: 175, opacity: logoOpacity, transform: [{scale: logoScale}, {translateY: logoTranslateY}]}}
+            style={{width: 250, height: 175}}
             resizeMode="center"
           />
         </View>
 
-        <Animated.ScrollView
-          scrollEventThrottle={16}
+        <ScrollView
           style={StyleSheet.absoluteFill}
           contentContainerStyle={{marginTop: 300, backgroundColor: '#fff'}}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-            { useNativeDriver: true }
-          )}>
+          >
           <Text>{name}</Text>
           <Text>{ingredients}</Text>
           <View style={{height: 1000, width: 320}}>
 
           </View>
-        </Animated.ScrollView>
+        </ScrollView>
 
         <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
           <View style={[styles.navigationBarAction, {marginLeft: -5}]}>

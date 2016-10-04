@@ -1,5 +1,5 @@
 import React from 'react';
-import RecipeList from './RecipeList';
+import RecipeList from '../components/RecipeList';
 
 export default class RecipeListScreen extends React.Component {
   static route = {

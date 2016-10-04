@@ -10,26 +10,37 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import geolib from 'geolib';
 
 import RecipeListItem from './RecipeListItem';
-import recipes from '../data';
-import { Router } from '../main';
+import Router from '../navigation/Router';
 
 export default class RecipeList extends React.Component {
   state = {
-    recipes,
+    recipes: [],
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:3000/recipes.json")
+      .then(response => response.json())
+      .then(json => this.receivedRecipes(json) )
+      // .then(function(response){return response.json()})
+      // .then(function(json){ this.setState({ recipes: json }) }.bind(this))
+  }
+
+  receivedRecipes(data){
+    this.setState({
+      recipes: data,
+    })
   }
 
   render() {
-    console.log(this);
     return (
       <ScrollView style={styles.container}>
         {
           this.state.recipes.map(recipe => (
             <RecipeListItem
               recipe={recipe}
-              onPress={() => console.log('inside click handle')}
+
               key={recipe.name}
               navigator={this.props.navigator}
             />

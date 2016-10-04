@@ -6,18 +6,16 @@ import {
 import {
   ExponentLinksView,
 } from '@exponent/samples';
-import RecipeListItem from '../components/RecipeListItem';
-import recipes from '../data';
-import RecipeList from '../components/RecipeList';
+import LoginForm from '../components/LoginForm'
 
 export default class LinksScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: 'All Recipes',
+      title: 'Login ',
     },
   }
   render() {
-    return <RecipeList />;
+    return <LoginForm />;
   }
 
 }

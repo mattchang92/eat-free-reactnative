@@ -4,12 +4,14 @@ import {
   Image,
   Text,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
-import TouchableNativeFeedback from '@exponent/react-native-touchable-native-feedback-safe';
-import { MaterialIcons } from '@exponent/vector-icons';
+// import TouchableOpacity from '@exponent/react-native-touchable-native-feedback-safe';
 
 import Layout from '../constants/Layout';
 import { RegularText, BoldText } from './StyledText';
+import Router from '../navigation/Router';
+
 
 export default class RecipeListItem extends React.Component {
   render() {
@@ -27,7 +29,7 @@ export default class RecipeListItem extends React.Component {
     } = this.props.recipe;
 
     return (
-      <TouchableNativeFeedback onPress={() => {this._handlePressRecipe(this.props.recipe)}} style={styles.container}>
+      <TouchableOpacity onPress={() => {this._handlePressRecipe(this.props.recipe)}} style={styles.container}>
         <View style={styles.logoContainer}>
                   <Image
                     resizeMode="cover"
@@ -36,13 +38,12 @@ export default class RecipeListItem extends React.Component {
                   />
                 </View>
         <Text>{name}</Text>
-      </TouchableNativeFeedback>
+      </TouchableOpacity>
     );
   }
 
   _handlePressRecipe = (recipe) => {
-    console.log('clicked');
-    this.props.navigator.push('details', {recipe});
+    this.props.navigator.push(Router.getRoute('details', { recipe }));
   }
 
 }
