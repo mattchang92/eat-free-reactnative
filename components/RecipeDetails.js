@@ -12,102 +12,106 @@ import {
 import {
   MaterialIcons,
 } from '@exponent/vector-icons';
-import Exponent, {
-  Components,
-} from 'exponent';
+import Exponent from 'exponent';
+import { NavigationBar } from '@exponent/ex-navigation'
+import Router from '../navigation/Router';
+
 
 import {
   BoldText,
 } from './StyledText';
 // import formatTime from '../util/formatTime';
 
-const { MapView } = Components;
 import recipes from '../data';
 const testrecipe = recipes[1];
 
-export default class BreweryDetails extends React.Component {
+export default class RecipeDetails extends React.Component {
 
   static defaultProps = {
     recipe: testrecipe,
   }
+  //
+  // state = {
+  //   scrollY: new Animated.Value(0),
+  // }
 
-  state = {
-    scrollY: new Animated.Value(0),
-  }
+
 
   render() {
     let {
       name,
       photo,
+      ingredients,
+      directions,
     } = this.props.recipe;
 
-    let {
-      scrollY,
-    } = this.state;
 
-    let logoScale = scrollY.interpolate({
-      inputRange: [-150, 0, 150],
-      outputRange: [1.5, 1, 1],
-    });
-
-    let logoTranslateY = scrollY.interpolate({
-      inputRange: [-150, 0, 150],
-      outputRange: [30, 0, -30],
-    });
-
-    let logoOpacity = scrollY.interpolate({
-      inputRange: [-150, 0, 200, 400],
-      outputRange: [1, 1, 0.2, 0.2],
-    });
 
     return (
       <View style={{flex: 1}}>
         <View style={[styles.heroBackground, {backgroundColor: '#1C181B'}]} />
 
         <View style={styles.hero}>
-          <Animated.Image
+          <Image
             source={{uri: photo}}
-            style={{width: 200, height: 150, opacity: logoOpacity, transform: [{scale: logoScale}, {translateY: logoTranslateY}]}}
+            style={{width: 250, height: 175}}
             resizeMode="center"
           />
         </View>
 
-        <Animated.ScrollView
-          scrollEventThrottle={16}
+        <ScrollView
           style={StyleSheet.absoluteFill}
           contentContainerStyle={{marginTop: 300, backgroundColor: '#fff'}}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-            { useNativeDriver: true }
-          )}>
-          <View style={{height: 1000, width: 320}} />
-        </Animated.ScrollView>
+          >
+          <Text>{name}</Text>
+          <Text>{ingredients}</Text>
+          <View style={{height: 1000, width: 320}}>
+
+          </View>
+        </ScrollView>
 
         <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
-          <View style={styles.navigationBarAction}>
-            <TouchableOpacity>
-              <MaterialIcons
-                name="arrow-back"
-                size={25}
-              />
-            </TouchableOpacity>
+          <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
           </View>
+        </Animated.View>
+
+        {this._renderNavigationBar()}
+
+        <StatusBar barStyle="light-content" />
+      </View>
+    );
+  }
+
+
+    _renderNavigationBar() {
+
+      // <View style={styles.navigationBarTitle}>
+      //   {this._renderNavigationBarTitle()}
+      // </View>
+
+      return (
+        <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
+          <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
+            <NavigationBar.BackButton
+              tintColor={'white'}
+              onPress={() => this.props.navigator.pop() }
+            />
+          </View>
+
 
           <View style={styles.navigationBarAction}>
             <TouchableOpacity>
               <MaterialIcons
                 name="directions"
                 size={25}
-                color='#fff'
+                color={'white'}
               />
-            </TouchableOpacity>
+          </TouchableOpacity>
           </View>
         </Animated.View>
+      );
+    }
 
-        <StatusBar barStyle="light-content" />
-      </View>
-    );
-  }
 
 }
 

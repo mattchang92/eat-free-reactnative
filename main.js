@@ -19,8 +19,14 @@ import {
 
 import RecipeListItem from './components/RecipeListItem';
 import recipes from './data';
-import RecipeList from './components/RecipeList';
-import RecipeDetails from './components/RecipeDetails';
+
+
+// export const Router = createRouter(() => ({
+//   list: () => RecipeListScreen,
+//   list: function(){ return RecipeListScreen },
+//   list(){ return RecipeListScreen },
+//   details: () => RecipeDetailsScreen,
+// }));
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
@@ -75,8 +81,11 @@ class AppContainer extends React.Component {
       return <Exponent.Components.AppLoading />;
     }
 
-    return <RecipeDetails />;
-    // return <RecipeList />;
+    return (
+      <NavigationProvider router={Router}>
+        <StackNavigation initialRoute={Router.getRoute('home')} />
+      </NavigationProvider>
+    )
   }
 }
 
