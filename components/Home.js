@@ -32,7 +32,8 @@ export default class Home extends React.Component {
         </View>
 
         <CardSection style={styles.loginContainer}>
-          <Button onPress={this._handleLoginPress} style={styles.loginButton}>
+          <Button onPress={this._handleLoginPress}
+                  style={styles.loginButton}>
             Log In
           </Button>
         </CardSection>

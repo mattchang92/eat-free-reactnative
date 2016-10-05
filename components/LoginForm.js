@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import {
   Text,
+  AsyncStorage,
 } from 'react-native';
 // import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
+import Router from '../navigation/Router';
+import ENV from '../app_keys';
 
 export default class LoginForm extends React.Component {
 
@@ -14,14 +17,15 @@ export default class LoginForm extends React.Component {
     loading: false
   }
 
-  onButtonPress() {
+  onLoginPress() {
     const { email, password } = this.state;
 
     this.setState({ error: '', loading: true });
 
-    fetch("http://localhost:3000/api/v1/authenticate_user?login_request=true", {
+    fetch(ENV.BASE_URL + "/api/v1/authenticate_user", {
       method: 'POST',
       headers: {
+        'CLIENT_KEY': ENV.CLIENT_KEY,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
@@ -29,27 +33,32 @@ export default class LoginForm extends React.Component {
         email: email,
         password: password,
       })
-    }).catch(() => { console.log('failed hardcore') })
+    }).catch(() => { console.log('failed so badly') })
       .then(response => response.json())
-      .then(json => { console.log(json.api_key) })
+      // .then(json => { console.log(json) } )
+      .then(json => this.receivedResponse(json) )
 
-    // firebase.auth().signInWithEmailAndPassword(email, password)
-    //   .then(this.onLoginSuccess.bind(this))
-    //   .catch(() => {
-    //     firebase.auth().createUserWithEmailAndPassword(email, password)
-    //       .then(this.onLoginSuccess.bind(this))
-    //       .catch(this.onLoginFail.bind(this));
-    //   });
   }
 
+  receivedResponse(data) {
 
-  onLoginSuccess() {
+    if (data.api_key) {
+      this.onLoginSuccess(data);
+    } else {
+      this.onLoginFail()
+    }
+  }
+
+  onLoginSuccess(data) {
     this.setState({
       email: '',
       password: '',
       error: '',
       loading: false
     });
+    AsyncStorage.setItem('UserApiKey', data.api_key);
+    this.props.navigator.push(Router.getRoute('list'));
+
   }
 
   onLoginFail() {
@@ -64,11 +73,15 @@ export default class LoginForm extends React.Component {
       return <Spinner size="small"/>;
     } else {
       return (
-        <Button onPress={this.onButtonPress.bind(this)}>
+        <Button onPress={this.onLoginPress.bind(this)}>
           Log in
         </Button>
       )
     }
+  }
+
+  onFitbitPress() {
+    AsyncStorage.getItem('UserApiKey').then(key => { console.log(key) })
   }
 
   render() {
@@ -101,7 +114,7 @@ export default class LoginForm extends React.Component {
           {this.renderButton()}
         </CardSection>
         <CardSection>
-          <Button>
+          <Button onPress={this.onFitbitPress.bind(this)}>
             Sign in with Fitbit
           </Button>
         </CardSection>

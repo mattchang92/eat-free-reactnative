@@ -21,7 +21,6 @@ export default class HomeScreen extends React.Component {
     },
   }
 
-
   render() {
     return (
       <Home navigator={this.props.navigator} />

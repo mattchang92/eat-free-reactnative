@@ -7,6 +7,7 @@ import {
   ExponentLinksView,
 } from '@exponent/samples';
 import LoginForm from '../components/LoginForm'
+import Router from '../navigation/Router';
 
 export default class LinksScreen extends React.Component {
   static route = {
@@ -15,7 +16,7 @@ export default class LinksScreen extends React.Component {
     },
   }
   render() {
-    return <LoginForm />;
+    return <LoginForm navigator={this.props.navigator}/>;
   }
 
 }

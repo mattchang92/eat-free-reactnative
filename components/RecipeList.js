@@ -9,10 +9,13 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  AsyncStorage,
 } from 'react-native';
 
 import RecipeListItem from './RecipeListItem';
 import Router from '../navigation/Router';
+import RootNavigation from '../navigation/RootNavigation'
+import ENV from '../app_keys'
 
 export default class RecipeList extends React.Component {
   state = {
@@ -20,11 +23,19 @@ export default class RecipeList extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/recipes.json")
+    AsyncStorage.getItem('UserApiKey').then(key => {
+      fetch(ENV.BASE_URL + "/api/v1/recipes", {
+        headers: {
+          'CLIENT_KEY': ENV.CLIENT_KEY,
+          'api_key': key
+        }
+      })
       .then(response => response.json())
       .then(json => this.receivedRecipes(json) )
       // .then(function(response){return response.json()})
       // .then(function(json){ this.setState({ recipes: json }) }.bind(this))
+     })
+
   }
 
   receivedRecipes(data){
@@ -46,7 +57,6 @@ export default class RecipeList extends React.Component {
             />
           ))
         }
-
       </ScrollView>
     );
   }
