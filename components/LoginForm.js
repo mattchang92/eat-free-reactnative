@@ -6,6 +6,7 @@ import {
 // import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 import Router from '../navigation/Router';
+import ENV from '../app_keys';
 
 export default class LoginForm extends React.Component {
 
@@ -21,9 +22,10 @@ export default class LoginForm extends React.Component {
 
     this.setState({ error: '', loading: true });
 
-    fetch("http://localhost:3000/api/v1/authenticate_user?login_request=true", {
+    fetch(ENV.BASE_URL + "/api/v1/authenticate_user", {
       method: 'POST',
       headers: {
+        'CLIENT_KEY': ENV.CLIENT_KEY,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
@@ -36,13 +38,6 @@ export default class LoginForm extends React.Component {
       // .then(json => { console.log(json) } )
       .then(json => this.receivedResponse(json) )
 
-    // firebase.auth().signInWithEmailAndPassword(email, password)
-    //   .then(this.onLoginSuccess.bind(this))
-    //   .catch(() => {
-    //     firebase.auth().createUserWithEmailAndPassword(email, password)
-    //       .then(this.onLoginSuccess.bind(this))
-    //       .catch(this.onLoginFail.bind(this));
-    //   });
   }
 
   receivedResponse(data) {

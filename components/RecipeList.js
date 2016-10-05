@@ -15,6 +15,7 @@ import {
 import RecipeListItem from './RecipeListItem';
 import Router from '../navigation/Router';
 import RootNavigation from '../navigation/RootNavigation'
+import ENV from '../app_keys'
 
 export default class RecipeList extends React.Component {
   state = {
@@ -23,8 +24,9 @@ export default class RecipeList extends React.Component {
 
   componentDidMount() {
     AsyncStorage.getItem('UserApiKey').then(key => {
-      fetch("http://localhost:3000/api/v1/recipes", {
+      fetch(ENV.BASE_URL + "/api/v1/recipes", {
         headers: {
+          'CLIENT_KEY': ENV.CLIENT_KEY,
           'api_key': key
         }
       })
