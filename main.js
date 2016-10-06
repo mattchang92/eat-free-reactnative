@@ -8,6 +8,7 @@ import {
   ScrollView,
   View,
   Text,
+  AsyncStorage,
 } from 'react-native';
 import {
   NavigationProvider,
@@ -18,15 +19,7 @@ import {
 } from '@exponent/vector-icons';
 
 import RecipeListItem from './components/RecipeListItem';
-import recipes from './data';
 
-
-// export const Router = createRouter(() => ({
-//   list: () => RecipeListScreen,
-//   list: function(){ return RecipeListScreen },
-//   list(){ return RecipeListScreen },
-//   details: () => RecipeDetailsScreen,
-// }));
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
@@ -34,11 +27,12 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 class AppContainer extends React.Component {
   state = {
     appIsReady: false,
-    recipes,
+    userPresent: this.props.userPresent || false
   }
 
   componentWillMount() {
     this._loadAssetsAsync();
+    this.checkUserPresent();
   }
 
   async _loadAssetsAsync() {
@@ -58,32 +52,41 @@ class AppContainer extends React.Component {
     }
   }
 
+  checkUserPresent() {
+    AsyncStorage.getItem('UserApiKey')
+      .then( response => {
+        if (response !== null) {
+          this.setState({userPresent: true})
+        } else {
+          this.setState({userPresent: false})
+        }
+      })
+  }
+
+  logOut() {
+    // AsyncStorage.removeItem('UserApiKey')
+    //   .then(this.setState({userPresent: false}))
+    console.log("logged out")
+  }
+
+  renderLink() {
+    if (this.state.userPresent) {
+      return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
+                              logOut={this.logOut}/>
+    } else {
+      return <StackNavigation initialRoute={Router.getRoute('home')} />
+    }
+  }
+
   render() {
-    // if (this.state.appIsReady) {
-    //   let { notification } = this.props.exp;
-    //   let initialRoute = Router.getRoute('rootNavigation', {notification});
-    //
-    //   return (
-    //     <View style={styles.container}>
-    //       <NavigationProvider router={Router}>
-    //         <StackNavigation
-    //           id="root"
-    //           initialRoute={initialRoute}
-    //         />
-    //       </NavigationProvider>
-    //
-    //     </View>
-    //   );
-    // } else {
-    //   return <Exponent.Components.AppLoading />;
-    // }
+
     if (!this.state.appIsReady) {
       return <Exponent.Components.AppLoading />;
     }
 
     return (
       <NavigationProvider router={Router}>
-        <StackNavigation initialRoute={Router.getRoute('home')} />
+        {this.renderLink()}
       </NavigationProvider>
     )
   }

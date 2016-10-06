@@ -57,7 +57,7 @@ export default class LoginForm extends React.Component {
       loading: false
     });
     AsyncStorage.setItem('UserApiKey', data.api_key);
-    this.props.navigator.push(Router.getRoute('list'));
+    this.props.navigator.push(Router.getRoute('rootNavigation'));
 
   }
 
