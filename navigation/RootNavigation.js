@@ -33,7 +33,7 @@ export default class RootNavigation extends React.Component {
         tabBarHeight={56}
         initialTab="list">
         <TabNavigationItem
-          id="home"
+          id="list"
           renderIcon={isSelected => this._renderIcon('home', isSelected)}>
           <StackNavigation initialRoute={Router.getRoute('list')} />
         </TabNavigationItem>
@@ -45,7 +45,7 @@ export default class RootNavigation extends React.Component {
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="list"
+          id="details"
           renderIcon={isSelected => this._renderIonicon('My Profile', 'ios-person-outline', isSelected)}>
           <StackNavigation initialRoute={Router.getRoute('login')} />
         </TabNavigationItem>
@@ -60,7 +60,7 @@ export default class RootNavigation extends React.Component {
   }
 
   logOut() {
-    //AsyncStorage.removeItem('UserApiKey')
+    AsyncStorage.removeItem('UserApiKey')
     //this.props.navigator.push(Router.getRoute('home'));
     console.log("nav log out", this.props)
   }

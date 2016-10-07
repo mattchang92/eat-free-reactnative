@@ -5,8 +5,8 @@ import {
 } from 'react-native';
 // import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
-import Router from '../navigation/Router';
-import ENV from '../app_keys';
+import Router from '../../navigation/Router';
+import ENV from '../../app_keys';
 
 export default class LoginForm extends React.Component {
 

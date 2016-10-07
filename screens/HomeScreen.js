@@ -10,9 +10,9 @@ import {
   View,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from '../src/components/StyledText';
 // import RecipeDetails from '../components/RecipeDetails';
-import Home from '../components/Home';
+import Home from '../src/components/Home';
 
 export default class HomeScreen extends React.Component {
   static route = {

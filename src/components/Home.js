@@ -9,11 +9,10 @@ import {
   View,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
 import { Card, CardSection, Button } from './common'
 
 // import RecipeDetails from '../components/RecipeDetails';
-import Router from '../navigation/Router';
+import Router from '../../navigation/Router';
 
 export default class Home extends React.Component {
   static route = {
@@ -25,7 +24,7 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <Image source={require('../assets/images/Optimized-background-bottom.jpg')} style={styles.backgroundImage}>
+      <Image source={require('../../assets/images/Optimized-background-bottom.jpg')} style={styles.backgroundImage}>
 
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Eat Free</Text>

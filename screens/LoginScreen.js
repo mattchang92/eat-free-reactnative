@@ -6,7 +6,7 @@ import {
 import {
   ExponentLinksView,
 } from '@exponent/samples';
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../src/components/LoginForm'
 import Router from '../navigation/Router';
 
 export default class LinksScreen extends React.Component {

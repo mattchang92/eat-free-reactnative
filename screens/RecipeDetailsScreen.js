@@ -1,5 +1,5 @@
 import React from 'react';
-import RecipeDetails from '../components/RecipeDetails';
+import RecipeDetails from '../src/components/RecipeDetails';
 
 export default class RecipeDetailsScreen extends React.Component {
   static route = {

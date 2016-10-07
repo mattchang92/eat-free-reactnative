@@ -14,27 +14,9 @@ import {
 } from '@exponent/vector-icons';
 import Exponent from 'exponent';
 import { NavigationBar } from '@exponent/ex-navigation'
-import Router from '../navigation/Router';
-
-
-import {
-  BoldText,
-} from './StyledText';
-// import formatTime from '../util/formatTime';
-
-import recipes from '../data';
-const testrecipe = recipes[1];
+import Router from '../../navigation/Router';
 
 export default class RecipeDetails extends React.Component {
-
-  static defaultProps = {
-    recipe: testrecipe,
-  }
-  //
-  // state = {
-  //   scrollY: new Animated.Value(0),
-  // }
-
 
 
   render() {

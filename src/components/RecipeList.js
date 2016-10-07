@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 
 import RecipeListItem from './RecipeListItem';
-import Router from '../navigation/Router';
-import RootNavigation from '../navigation/RootNavigation'
-import ENV from '../app_keys'
+import Router from '../../navigation/Router';
+import RootNavigation from '../../navigation/RootNavigation'
+import ENV from '../../app_keys'
 
 export default class RecipeList extends React.Component {
   state = {
