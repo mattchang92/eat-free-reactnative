@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 // import TouchableOpacity from '@exponent/react-native-touchable-native-feedback-safe';
 
-import Layout from '../constants/Layout';
+import Layout from '../../constants/Layout';
 import { RegularText, BoldText } from './StyledText';
-import Router from '../navigation/Router';
+import Router from '../../navigation/Router';
 
 
 export default class RecipeListItem extends React.Component {

@@ -1,40 +1,15 @@
 import Exponent from 'exponent';
 import React from 'react';
-import {
-  AppRegistry,
-  Platform,
-  StatusBar,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-} from 'react-native';
-import {
-  NavigationProvider,
-  StackNavigation,
-} from '@exponent/ex-navigation';
-import {
-  FontAwesome,
-} from '@exponent/vector-icons';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './src/reducers'
+import App from './src/components/App'
 
-import RecipeListItem from './components/RecipeListItem';
-import recipes from './data';
-
-
-// export const Router = createRouter(() => ({
-//   list: () => RecipeListScreen,
-//   list: function(){ return RecipeListScreen },
-//   list(){ return RecipeListScreen },
-//   details: () => RecipeDetailsScreen,
-// }));
-
-import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
 class AppContainer extends React.Component {
   state = {
     appIsReady: false,
-    recipes,
   }
 
   componentWillMount() {
@@ -59,45 +34,18 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    // if (this.state.appIsReady) {
-    //   let { notification } = this.props.exp;
-    //   let initialRoute = Router.getRoute('rootNavigation', {notification});
-    //
-    //   return (
-    //     <View style={styles.container}>
-    //       <NavigationProvider router={Router}>
-    //         <StackNavigation
-    //           id="root"
-    //           initialRoute={initialRoute}
-    //         />
-    //       </NavigationProvider>
-    //
-    //     </View>
-    //   );
-    // } else {
-    //   return <Exponent.Components.AppLoading />;
-    // }
+
     if (!this.state.appIsReady) {
       return <Exponent.Components.AppLoading />;
     }
 
     return (
-      <NavigationProvider router={Router}>
-        <StackNavigation initialRoute={Router.getRoute('home')} />
-      </NavigationProvider>
+      <Provider store={createStore(reducers)}>
+        <App />
+      </Provider>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-});
 
 Exponent.registerRootComponent(AppContainer);

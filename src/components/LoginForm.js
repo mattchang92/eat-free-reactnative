@@ -3,12 +3,13 @@ import {
   Text,
   AsyncStorage,
 } from 'react-native';
-// import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
-import Router from '../navigation/Router';
-import ENV from '../app_keys';
+import Router from '../../navigation/Router';
+import ENV from '../../app_keys';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
 
   state = {
     email: '',
@@ -35,7 +36,6 @@ export default class LoginForm extends React.Component {
       })
     }).catch(() => { console.log('failed so badly') })
       .then(response => response.json())
-      // .then(json => { console.log(json) } )
       .then(json => this.receivedResponse(json) )
 
   }
@@ -57,7 +57,7 @@ export default class LoginForm extends React.Component {
       loading: false
     });
     AsyncStorage.setItem('UserApiKey', data.api_key);
-    this.props.navigator.push(Router.getRoute('list'));
+    this.props.loginUser();
 
   }
 
@@ -86,11 +86,11 @@ export default class LoginForm extends React.Component {
 
   render() {
     return (
-      <Card>
-        <CardSection>
+      <Card style={styles.container}>
+        <CardSection style={{backgroundColor: 'transparent'}}>
           <Input
-            placeholder="user@gmail.com"
-            label="Email"
+            style={styles.container}
+            placeholder="Email"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
           />
@@ -98,8 +98,7 @@ export default class LoginForm extends React.Component {
 
         <CardSection>
           <Input
-            placeholder='password'
-            label="Password"
+            placeholder='Password'
             secureTextEntry
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
@@ -129,5 +128,10 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
+  },
+  container: {
+    backgroundColor: 'transparent',
   }
 }
+
+export default connect(null, actions)(LoginForm);
