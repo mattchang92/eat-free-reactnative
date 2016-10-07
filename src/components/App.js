@@ -32,7 +32,9 @@ class App extends React.Component {
       return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
                               logOut={this.logOut}/>
     } else {
-      return <HomeScreen />
+      return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
+                              logOut={this.logOut}/>
+      // return <HomeScreen />
     }
   }
 

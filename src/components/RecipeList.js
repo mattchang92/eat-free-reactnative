@@ -3,67 +3,69 @@ import {
   Location,
   Permissions,
 } from 'exponent';
+import { connect } from 'react-redux';
 import {
-  Platform,
   ScrollView,
-  StatusBar,
   StyleSheet,
-  View,
   AsyncStorage,
+  ListView,
 } from 'react-native';
 
 import RecipeListItem from './RecipeListItem';
 import Router from '../../navigation/Router';
 import RootNavigation from '../../navigation/RootNavigation'
-import ENV from '../../app_keys'
 
-export default class RecipeList extends React.Component {
-  state = {
-    recipes: [],
-  }
+class RecipeList extends React.Component {
 
-  componentDidMount() {
-    AsyncStorage.getItem('UserApiKey').then(key => {
-      fetch(ENV.BASE_URL + "/api/v1/recipes", {
-        headers: {
-          'CLIENT_KEY': ENV.CLIENT_KEY,
-          'api_key': key
-        }
-      })
-      .then(response => response.json())
-      .then(json => this.receivedRecipes(json) )
-      // .then(function(response){return response.json()})
-      // .then(function(json){ this.setState({ recipes: json }) }.bind(this))
-     })
-
-  }
-
-  receivedRecipes(data){
-    this.setState({
-      recipes: data,
+  componentWillMount() {
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
     })
+    this.dataSource = ds.cloneWithRows(this.props.recipes);
+    AsyncStorage.getItem('UserApiKey').then(key => {  })
+
+  }
+
+  renderRow(recipe) {
+
+    return (
+
+      <RecipeListItem
+        recipe={recipe}
+        key={recipe.name}
+        navigator={this.props.navigator}
+      />
+    )
   }
 
   render() {
+
     return (
-      <ScrollView style={styles.container}>
-        {
-          this.state.recipes.map(recipe => (
-            <RecipeListItem
-              recipe={recipe}
-
-              key={recipe.name}
-              navigator={this.props.navigator}
-            />
-          ))
-        }
-      </ScrollView>
-    );
-  }
-
-
-
+      <ListView dataSource={this.dataSource}
+                renderRow={this.renderRow.bind(this)}
+      />
+    )
 }
+//   <ScrollView style={styles.container}>
+//     {
+//       this.state.recipes.map(recipe => (
+//         <RecipeListItem
+//           recipe={recipe}
+//
+//           key={recipe.name}
+//           navigator={this.props.navigator}
+//         />
+//       ))
+//     }
+//   </ScrollView>
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return { recipes: state.recipes, navigator: ownProps.navigator }
+}
+
+export default connect(mapStateToProps)(RecipeList)
+
 
 const styles = StyleSheet.create({
   container: {

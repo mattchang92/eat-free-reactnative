@@ -51,7 +51,7 @@ class RootNavigation extends React.Component {
           <StackNavigation initialRoute={Router.getRoute('login')} />
         </TabNavigationItem>
 
-        <TabNavigationItem
+        <TabNavigationItem 
           id="logout"
           renderIcon={isSelected => this._renderIonicon('Log Out', 'ios-person-outline', isSelected)}
           onPress={this.logOut.bind(this)}>
