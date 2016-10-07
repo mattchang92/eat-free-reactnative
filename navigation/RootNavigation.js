@@ -4,10 +4,9 @@ import React, {
 import {
   DeviceEventEmitter,
   StyleSheet,
+  AsyncStorage,
   View,
   Text,
-  AsyncStorage,
-  TouchableHighlight,
 } from 'react-native';
 import {
   StackNavigation,
@@ -18,13 +17,15 @@ import {
   FontAwesome,
   Ionicons,
 } from '@exponent/vector-icons';
+import { connect } from 'react-redux';
+import * as actions from '../src/actions';
 
 import Alerts from '../constants/Alerts';
 import Colors from '../constants/Colors';
 import Router from '../navigation/Router';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
-export default class RootNavigation extends React.Component {
+class RootNavigation extends React.Component {
 
 
   render() {
@@ -53,16 +54,15 @@ export default class RootNavigation extends React.Component {
         <TabNavigationItem
           id="logout"
           renderIcon={isSelected => this._renderIonicon('Log Out', 'ios-person-outline', isSelected)}
-          onPress={this.logOut}>
+          onPress={this.logOut.bind(this)}>
         </TabNavigationItem>
       </TabNavigation>
     );
   }
 
   logOut() {
-    AsyncStorage.removeItem('UserApiKey')
-    //this.props.navigator.push(Router.getRoute('home'));
-    console.log("nav log out", this.props)
+    AsyncStorage.removeItem('UserApiKey');
+    this.props.logoutUser();
   }
 
   _renderIonicon(title: string, iconName: string, isSelected: bool): ReactElement<any> {
@@ -106,3 +106,5 @@ const styles = StyleSheet.create({
     fontSize: 11,
   }
 });
+
+export default connect(null, actions)(RootNavigation);
