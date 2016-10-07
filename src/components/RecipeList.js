@@ -46,18 +46,7 @@ class RecipeList extends React.Component {
       />
     )
 }
-//   <ScrollView style={styles.container}>
-//     {
-//       this.state.recipes.map(recipe => (
-//         <RecipeListItem
-//           recipe={recipe}
-//
-//           key={recipe.name}
-//           navigator={this.props.navigator}
-//         />
-//       ))
-//     }
-//   </ScrollView>
+
 }
 
 const mapStateToProps = (state, ownProps) => {

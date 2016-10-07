@@ -8,16 +8,53 @@ import {
   Text,
   TouchableOpacity,
   View,
+  AsyncStorage,
 } from 'react-native';
 import {
   MaterialIcons,
 } from '@exponent/vector-icons';
 import Exponent from 'exponent';
 import { NavigationBar } from '@exponent/ex-navigation'
+import { Button, CardSection, LabelledInput } from './common'
 import Router from '../../navigation/Router';
+import ENV from '../../app_keys';
 
 export default class RecipeDetails extends React.Component {
 
+  state = {
+    servings: "1",
+    added: false,
+  }
+
+  addRecipe() {
+
+    AsyncStorage.getItem('UserApiKey').then(key => {
+      fetch(ENV.BASE_URL + "/api/v1/add_recipe", {
+        method: 'POST',
+        headers: {
+          'CLIENT_KEY': ENV.CLIENT_KEY,
+          'API_KEY': key,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          recipe: {
+            servings: this.state.servings,
+            recipe_id: this.props.recipe.id,
+          }
+        })
+      })
+      .catch(() => { console.log('failed so badly') })
+      .then(response => response.json())
+      .then(response => {
+        if (response.success === true) {
+          this.setState({ added: true })
+        }
+      })
+    })
+
+
+  }
 
   render() {
     let {
@@ -26,8 +63,6 @@ export default class RecipeDetails extends React.Component {
       ingredients,
       directions,
     } = this.props.recipe;
-
-
 
     return (
       <View style={{flex: 1}}>
@@ -44,18 +79,28 @@ export default class RecipeDetails extends React.Component {
         <ScrollView
           style={StyleSheet.absoluteFill}
           contentContainerStyle={{marginTop: 300, backgroundColor: '#fff'}}
-          >
-          <Text>{name}</Text>
+        >
+          <Text style={styles.recipeNameStyle}>{name}</Text>
           <Text>{ingredients}</Text>
+          <CardSection>
+            <LabelledInput
+              label="Servings"
+              placeholder="1"
+              value={this.state.servings}
+              onChangeText={servings => this.setState({ servings })}
+            />
+          </CardSection>
+          <Text>
+            {this._renderMessage()}
+          </Text>
+          <CardSection>
+            <Button onPress={this.addRecipe.bind(this)}>
+              Add This Recipe
+            </Button>
+          </CardSection>
           <View style={{height: 1000, width: 320}}>
-
           </View>
         </ScrollView>
-
-        <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
-          <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
-          </View>
-        </Animated.View>
 
         {this._renderNavigationBar()}
 
@@ -64,64 +109,34 @@ export default class RecipeDetails extends React.Component {
     );
   }
 
-
-    _renderNavigationBar() {
-
-      // <View style={styles.navigationBarTitle}>
-      //   {this._renderNavigationBarTitle()}
-      // </View>
-
-      return (
-        <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
-          <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
-            <NavigationBar.BackButton
-              tintColor={'white'}
-              onPress={() => this.props.navigator.pop() }
-            />
-          </View>
-
-
-          <View style={styles.navigationBarAction}>
-            <TouchableOpacity>
-              <MaterialIcons
-                name="directions"
-                size={25}
-                color={'white'}
-              />
-          </TouchableOpacity>
-          </View>
-        </Animated.View>
-      );
+  _renderMessage() {
+    if (this.state.added) {
+      return "Recipe successfully added!"
     }
+    return null
+  }
+
+  _renderNavigationBar() {
+
+    return (
+      <Animated.View style={[styles.navigationBar, {backgroundColor: '#1C181B'}]}>
+        <View style={[styles.navigationBarAction, {marginLeft: -5}]}>
+          <NavigationBar.BackButton
+            tintColor={'white'}
+            onPress={() => this.props.navigator.pop() }
+          />
+        </View>
+      </Animated.View>
+    );
+  }
 
 
 }
 
 const styles = StyleSheet.create({
-  container: {
-
-  },
-  barIsOpenContainer: {
-    backgroundColor: 'rgba(4,128,15,0.66)',
-    borderRadius: 3,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
-  barIsOpeningLaterContainer: {
-    backgroundColor: 'rgba(241,146,36,0.66)',
-    borderRadius: 3,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-
-  },
-  barIsClosedContainer: {
-    backgroundColor: 'rgba(128,23,4,0.66)',
-    borderRadius: 3,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
-  barIsOpenText: {
-    color: '#fff',
+  recipeNameStyle: {
+    justifyContent: 'flex-start',
+    alignSelf: 'center'
   },
   heroBackground: {
     height: 500,
