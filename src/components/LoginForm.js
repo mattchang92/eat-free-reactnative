@@ -41,10 +41,9 @@ class LoginForm extends React.Component {
   }
 
   receivedResponse(data) {
-
-    if (data.api_key) {
+    if (data.user) {
       this.onLoginSuccess(data);
-    } else {
+    } else if (data.success === false) {
       this.onLoginFail()
     }
   }
@@ -56,7 +55,9 @@ class LoginForm extends React.Component {
       error: '',
       loading: false
     });
-    AsyncStorage.setItem('UserApiKey', data.api_key);
+    AsyncStorage.setItem('UserApiKey', data.user.api_key);
+    console.log(data.stats.calories)
+    AsyncStorage.setItem('UserCalories', data.stats.calories.toString());
     this.props.loginUser();
 
   }

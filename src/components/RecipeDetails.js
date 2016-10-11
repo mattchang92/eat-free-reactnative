@@ -10,6 +10,9 @@ import {
   View,
   AsyncStorage,
 } from 'react-native';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+
 import {
   MaterialIcons,
 } from '@exponent/vector-icons';
@@ -19,7 +22,7 @@ import { Button, CardSection, LabelledInput } from './common'
 import Router from '../../navigation/Router';
 import ENV from '../../app_keys';
 
-export default class RecipeDetails extends React.Component {
+class RecipeDetails extends React.Component {
 
   state = {
     servings: "1",
@@ -49,6 +52,7 @@ export default class RecipeDetails extends React.Component {
       .then(response => {
         if (response.success === true) {
           this.setState({ added: true })
+          this.props.updateFoodlog()
         }
       })
     })
@@ -173,3 +177,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
 });
+
+
+export default connect(null, actions)(RecipeDetails)

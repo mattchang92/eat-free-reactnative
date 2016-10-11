@@ -13,7 +13,7 @@ import { RegularText, BoldText } from './StyledText';
 import Router from '../../navigation/Router';
 
 
-export default class RecipeListItem extends React.Component {
+export default class FoodlogListItem extends React.Component {
   render() {
     let {
       name,
@@ -39,6 +39,7 @@ export default class RecipeListItem extends React.Component {
         </View>
         <View style={styles.infoContainer}>
           <Text>{name}</Text>
+          <Text>{calories} calories per serving</Text>
         </View>
       </TouchableOpacity>
     );
@@ -58,12 +59,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e5e5e5',
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: Layout.window.width,
-  },
-  infoContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
   },
   logoContainer: {
     padding: 15,

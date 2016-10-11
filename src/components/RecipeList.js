@@ -22,8 +22,6 @@ class RecipeList extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     })
     this.dataSource = ds.cloneWithRows(this.props.recipes);
-    AsyncStorage.getItem('UserApiKey').then(key => {  })
-
   }
 
   renderRow(recipe) {

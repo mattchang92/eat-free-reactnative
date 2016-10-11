@@ -11,4 +11,10 @@ export const loginUser = () => {
     payload: true
   };
 };
- 
+
+export const updateFoodlog = () => {
+  return {
+    type: 'access_foodlog',
+    payload: true
+  }
+}
