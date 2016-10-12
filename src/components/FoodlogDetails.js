@@ -22,38 +22,10 @@ import { Button, CardSection, LabelledInput } from './common'
 import Router from '../../navigation/Router';
 import ENV from '../../app_keys';
 
-class RecipeDetails extends React.Component {
+class FoodlogDetails extends React.Component {
 
   state = {
-    servings: "1",
-    added: false,
-  }
-
-  addRecipe() {
-
-    AsyncStorage.getItem('UserApiKey').then(key => {
-      fetch(ENV.BASE_URL + "/api/v1/add_recipe", {
-        method: 'POST',
-        headers: {
-          'CLIENT_KEY': ENV.CLIENT_KEY,
-          'API_KEY': key,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          recipe: {
-            servings: this.state.servings,
-            recipe_id: this.props.recipe.id,
-          }
-        })
-      })
-      .catch(() => { console.log('failed so badly') })
-      .then(response => response.json())
-      .then(response => {
-        this.setState({ added: true })
-        this.props.updateFoodlog(response)
-      })
-    })
+    deleted: false,
   }
 
   render() {
@@ -85,6 +57,13 @@ class RecipeDetails extends React.Component {
           <Text>
             {this._renderMessage()}
           </Text>
+          <CardSection>
+            <TouchableOpacity onPress={this.removeRecipe.bind(this)} style={styles.buttonStyle}>
+              <Text style={styles.textStyle}>
+                Remove This Recipe
+              </Text>
+            </TouchableOpacity>
+          </CardSection>
           <View style={{height: 1000, width: 320}}>
           </View>
         </ScrollView>
@@ -97,8 +76,8 @@ class RecipeDetails extends React.Component {
   }
 
   _renderMessage() {
-    if (this.state.added) {
-      return "Recipe successfully added!"
+    if (this.state.deleted) {
+      return "Recipe deleted"
     }
     return null
   }
@@ -159,7 +138,25 @@ const styles = StyleSheet.create({
     paddingTop: Exponent.Constants.statusBarHeight,
     paddingHorizontal: 5,
   },
+  buttonStyle: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 5,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  textStyle: {
+    alignSelf: 'center',
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 10,
+    paddingBottom: 10
+  }
 });
 
 
-export default connect(null, actions)(RecipeDetails)
+export default connect(null, actions)(FoodlogDetails)

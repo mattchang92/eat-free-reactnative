@@ -21,18 +21,14 @@ class App extends React.Component {
     userPresent: this.props.userPresent || false
   }
 
-  // componentWillMount() {
-  //   this.checkUserPresent();
-  // }
-  // return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
-                          // logOut={this.logOut}/>
   renderLink() {
-    console.log('renderlink', this.props.currentUser)
     if (this.props.currentUser) {
       return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
                               logOut={this.logOut}/>
     } else {
-      return <HomeScreen />
+      return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
+                              logOut={this.logOut}/>
+      // return <HomeScreen />
     }
   }
 

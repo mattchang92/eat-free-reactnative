@@ -31,19 +31,21 @@ export default class RecipeListItem extends React.Component {
     return (
       <TouchableOpacity onPress={() => {this._handlePressRecipe(this.props.recipe)}} style={styles.container}>
         <View style={styles.logoContainer}>
-                  <Image
-                    resizeMode="cover"
-                    source={{uri: photo}}
-                    style={styles.photo}
-                  />
-                </View>
-        <Text>{name}</Text>
+          <Image
+            resizeMode="cover"
+            source={{uri: photo}}
+            style={styles.photo}
+          />
+        </View>
+        <View style={styles.infoContainer}>
+          <Text>{name}</Text>
+        </View>
       </TouchableOpacity>
     );
   }
 
   _handlePressRecipe = (recipe) => {
-    this.props.navigator.push(Router.getRoute('details', { recipe }));
+    this.props.navigator.push(Router.getRoute('addRecipe', { recipe }));
   }
 
 }
@@ -63,23 +65,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  name: {
-    fontSize: 16,
-  },
-  hours: {
-    fontSize: 12,
-  },
-  address: {
-    fontSize: 12,
-  },
   logoContainer: {
     padding: 15,
+    flex: 2,
+  },
+  infoContainer: {
+    flex: 3,
   },
   photo: {
     width: 135,
     height: 75,
-  },
-  buttonContainer: {
-    paddingRight: 5,
   },
 });

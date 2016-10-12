@@ -1,8 +1,8 @@
-export default (state = false, action) => {
+export default (state = null, action) => {
   switch (action.type) {
-    case "login":
+    case "select_foodlog":
       return action.payload;
-    case 'logout':
+    case "deselect_foodlog":
       return action.payload;
     default:
       return state;

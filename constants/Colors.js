@@ -14,7 +14,7 @@ export default {
   navigationBarTintColor: '#fff',
   navigationBarBackgroundColor: BRAND_COLOR,
   tabIconDefault: GREY,
-  tabIconSelected: BRAND_COLOR,
+  tabIconSelected: "#007aff",
   tabBar: '#fefefe',
   drawerIconDefault: GREY,
   drawerTextDefault: MID_GREY,

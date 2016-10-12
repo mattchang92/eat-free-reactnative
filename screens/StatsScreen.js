@@ -2,16 +2,16 @@ import React from 'react';
 import {
   ExponentLinksView,
 } from '@exponent/samples';
-import SignupForm from '../src/components/SignupForm'
+import ViewStats from '../src/components/ViewStats'
 
 export default class LinksScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: 'Sign Up',
+      title: 'My Stats',
     },
   }
   render() {
-    return <SignupForm />;
+    return <ViewStats />;
   }
 
 }

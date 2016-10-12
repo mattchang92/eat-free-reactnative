@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Text,
   AsyncStorage,
+  View,
 } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 import Router from '../../navigation/Router';
@@ -9,13 +10,32 @@ import ENV from '../../app_keys';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-class LoginForm extends React.Component {
+class ViewStats extends React.Component {
 
   state = {
     email: '',
     password: '',
     error: '',
-    loading: false
+    loading: false,
+    calories: 0,
+    weight_loss_rate: 0,
+  }
+
+  componentWillMount(){
+    AsyncStorage.getItem("UserApiKey").then( key => {
+      fetch(ENV.BASE_URL + "/api/v1/stats", {
+        headers: {
+          'CLIENT_KEY': ENV.CLIENT_KEY,
+          'api_key': key
+        }
+      })
+      .then(response => response.json())
+      .then(json => this.updateState(json) )
+    })
+  }
+
+  updateState(data){
+    this.setState({ calories: data.calories, weight_loss_rate: data.weight_loss_rate })
   }
 
   onLoginPress() {
@@ -53,19 +73,9 @@ class LoginForm extends React.Component {
       email: '',
       password: '',
       error: '',
-      loading: false
+      loading: false,
+      updating: false,
     });
-
-    fetch(ENV.BASE_URL + "/api/v1/foodlogs", {
-      headers: {
-        'CLIENT_KEY': ENV.CLIENT_KEY,
-        'api_key': data.user.api_key
-      }
-    })
-    .then(response => response.json())
-    .then(json => this.props.updateFoodlog(json) )
-    // .then(json => this.receivedRecipes(json) )
-    AsyncStorage.setItem('UserApiKey', data.user.api_key)
 
     AsyncStorage.setItem('UserCalories', data.stats.calories.toString());
     this.props.loginUser();
@@ -79,55 +89,97 @@ class LoginForm extends React.Component {
     })
   }
 
-  renderButton() {
+  onUpdatePress(){
+    this.setState({ updating: true })
+  }
+
+  renderUpdateButton() {
     if (this.state.loading) {
       return <Spinner size="small"/>;
     } else {
       return (
-        <Button onPress={this.onLoginPress.bind(this)}>
-          Log in
+        <Button onPress={this.onUpdatePress.bind(this)}>
+          Adjust Calorie Goal
         </Button>
       )
     }
   }
 
-  onFitbitPress() {
-    AsyncStorage.getItem('UserApiKey').then(key => { console.log(key) })
+  renderForm(){
+    return (
+      <View>
+        <CardSection style={{backgroundColor: 'transparent'}}>
+          <Input
+            style={styles.container}
+            placeholder="Age"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+            />
+        </CardSection>
+        <CardSection style={{backgroundColor: 'transparent'}}>
+          <Input
+            style={styles.container}
+            placeholder="Weight"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+            />
+        </CardSection>
+        <CardSection style={{backgroundColor: 'transparent'}}>
+          <Input
+            style={styles.container}
+            placeholder="Height"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+            />
+        </CardSection>
+        <CardSection>
+          <Input
+            placeholder='Desired Weight Loss Rate'
+            secureTextEntry
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+            />
+        </CardSection>
+        <Text style={styles.errorTextStyle}>
+          {this.state.error}
+        </Text>
+        <CardSection>
+          <Button>
+            Save Stats
+          </Button>
+        </CardSection>
+      </View>
+    )
+  }
+
+  renderContent(){
+    if (this.state.updating) {
+      return this.renderForm();
+    } else {
+      return (
+        <View>
+          <CardSection>
+            <Text>Daily Calorie Allowance: {this.state.calories} Calories</Text>
+          </CardSection>
+          <CardSection>
+            <Text>Desired Weekyly Progress: {this.state.weight_loss_rate} kg/week</Text>
+          </CardSection>
+          <Text style={styles.errorTextStyle}>
+            {this.state.error}
+          </Text>
+
+          <CardSection>
+            {this.renderUpdateButton()}
+          </CardSection>
+        </View>
+      )
+    }
   }
 
   render() {
     return (
       <Card style={styles.container}>
-        <CardSection style={{backgroundColor: 'transparent'}}>
-          <Input
-            style={styles.container}
-            placeholder="Email"
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
-        </CardSection>
-
-        <CardSection>
-          <Input
-            placeholder='Password'
-            secureTextEntry
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-        </CardSection>
-
-        <Text style={styles.errorTextStyle}>
-          {this.state.error}
-        </Text>
-
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
-        <CardSection>
-          <Button onPress={this.onFitbitPress.bind(this)}>
-            Sign in with Fitbit
-          </Button>
-        </CardSection>
+        {this.renderContent()}
       </Card>
     )
   }
@@ -145,4 +197,4 @@ const styles = {
   }
 }
 
-export default connect(null, actions)(LoginForm);
+export default connect(null, actions)(ViewStats);

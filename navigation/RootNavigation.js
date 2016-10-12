@@ -14,7 +14,6 @@ import {
   TabNavigationItem,
 } from '@exponent/ex-navigation';
 import {
-  FontAwesome,
   Ionicons,
 } from '@exponent/vector-icons';
 import { connect } from 'react-redux';
@@ -32,28 +31,28 @@ class RootNavigation extends React.Component {
     return (
       <TabNavigation
         tabBarHeight={56}
-        initialTab="list">
+        initialTab="foodlog">
         <TabNavigationItem
           id="list"
-          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+          renderIcon={isSelected => this._renderIonicon('Recipe List', 'ios-list-box-outline', isSelected)}>
           <StackNavigation initialRoute={Router.getRoute('list')} />
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="login"
-          renderIcon={isSelected => this._renderIcon('book', isSelected)}>
-          <StackNavigation initialRoute={Router.getRoute('list')} />
+          id="foodlog"
+          renderIcon={isSelected => this._renderIonicon('Food Log', 'ios-bookmarks', isSelected)}>
+          <StackNavigation initialRoute={Router.getRoute('foodlog')} />
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="details"
+          id="stats"
           renderIcon={isSelected => this._renderIonicon('My Profile', 'ios-person-outline', isSelected)}>
-          <StackNavigation initialRoute={Router.getRoute('login')} />
+          <StackNavigation initialRoute={Router.getRoute('stats')} />
         </TabNavigationItem>
 
         <TabNavigationItem
           id="logout"
-          renderIcon={isSelected => this._renderIonicon('Log Out', 'ios-person-outline', isSelected)}
+          renderIcon={isSelected => this._renderIonicon('Log Out', 'ios-log-out', isSelected)}
           onPress={this.logOut.bind(this)}>
         </TabNavigationItem>
       </TabNavigation>
@@ -79,15 +78,6 @@ class RootNavigation extends React.Component {
     );
   }
 
-  _renderIcon(name, isSelected) {
-    return (
-      <FontAwesome
-        name={name}
-        size={32}
-        color={isSelected ? Colors.tabIconSelected : Colors.tabIconDefault}
-      />
-    );
-  }
 }
 
 const styles = StyleSheet.create({
