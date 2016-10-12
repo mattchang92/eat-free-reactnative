@@ -55,8 +55,17 @@ class LoginForm extends React.Component {
       error: '',
       loading: false
     });
-    AsyncStorage.setItem('UserApiKey', data.user.api_key);
-    console.log(data.stats.calories)
+
+    fetch(ENV.BASE_URL + "/api/v1/foodlogs", {
+      headers: {
+        'CLIENT_KEY': ENV.CLIENT_KEY,
+        'api_key': data.user.api_key
+      }
+    })
+    .then(response => response.json())
+    .then(json => this.props.updateFoodlog(json) )
+    // .then(json => this.receivedRecipes(json) )    AsyncStorage.setItem('UserApiKey', data.user.api_key)
+
     AsyncStorage.setItem('UserCalories', data.stats.calories.toString());
     this.props.loginUser();
 

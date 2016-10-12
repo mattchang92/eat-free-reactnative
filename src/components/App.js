@@ -22,14 +22,13 @@ class App extends React.Component {
   }
 
   renderLink() {
-    console.log('renderlink', this.props.currentUser)
     if (this.props.currentUser) {
       return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
                               logOut={this.logOut}/>
     } else {
-      return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
-                              logOut={this.logOut}/>
-      // return <HomeScreen />
+      // return <StackNavigation initialRoute={Router.getRoute('rootNavigation')}
+                              // logOut={this.logOut}/>
+      return <HomeScreen />
     }
   }
 

@@ -26,9 +26,6 @@ import registerForPushNotificationsAsync from '../api/registerForPushNotificatio
 
 class RootNavigation extends React.Component {
 
-  componentWillMount() {
-    this.props.updateFoodlog();
-  }
 
   render() {
     return (

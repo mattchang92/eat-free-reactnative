@@ -5,15 +5,24 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  LayoutAnimation,
 } from 'react-native';
-// import TouchableOpacity from '@exponent/react-native-touchable-native-feedback-safe';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+import { CardSection } from './common';
 
 import Layout from '../../constants/Layout';
 import { RegularText, BoldText } from './StyledText';
 import Router from '../../navigation/Router';
 
 
-export default class FoodlogListItem extends React.Component {
+class FoodlogListItem extends React.Component {
+
+  componentWillUpdate() {
+    // LayoutAnimation.configureNext(CustomLayoutAnimation);
+    LayoutAnimation.spring();
+  }
+
   render() {
     let {
       name,
@@ -29,21 +38,48 @@ export default class FoodlogListItem extends React.Component {
     let { servings } = this.props;
 
     return (
-      <TouchableOpacity onPress={() => {this._handlePressRecipe(this.props.recipe, this.props.foodlogId)}} style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            resizeMode="cover"
-            source={{uri: photo}}
-            style={styles.photo}
-          />
-        </View>
-        <View style={styles.infoContainer}>
-          <Text>{name}</Text>
-          <Text>{calories} calories per serving</Text>
-          <Text>{servings} total servings</Text>
-        </View>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity onPress={() => {this.onRecipeClick()}} style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image
+              resizeMode="cover"
+              source={{uri: photo}}
+              style={styles.photo}
+              />
+          </View>
+          <View style={styles.infoContainer}>
+            <Text>{name}</Text>
+            <Text>{this.calculateCalories()} calories in {servings} serving</Text>
+          </View>
+        </TouchableOpacity>
+        {this.renderDetails()}
+      </View>
     );
+  }
+
+  onRecipeClick(){
+    this.props.selectFoodlog(this.props.foodlogId)
+  }
+
+  renderDetails() {
+    const { expanded, recipe, selectedRecipeId } = this.props
+
+    if (expanded) {
+      return (
+        <CardSection>
+          <Text style={{flex: 1}}>
+            Hello World
+          </Text>
+        </CardSection>
+      );
+    }
+  }
+
+
+  calculateCalories(){
+    let calories = this.props.recipe.calories;
+    let servings = this.props.servings;
+    return calories * servings
   }
 
   _handlePressRecipe = (recipe, foodlogId) => {
@@ -51,6 +87,15 @@ export default class FoodlogListItem extends React.Component {
   }
 
 }
+
+const mapStateToProps = (state, ownProps) => {
+  const expanded =  state.selectedFoodlogId === ownProps.foodlogId
+  return { expanded, recipe: ownProps.recipe, foodlogId: ownProps.foodlogId }
+}
+
+
+export default connect(mapStateToProps, actions)(FoodlogListItem);
+
 
 const styles = StyleSheet.create({
   container: {

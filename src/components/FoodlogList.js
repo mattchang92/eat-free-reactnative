@@ -11,9 +11,11 @@ import {
   Text,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import ENV from '../../app_keys'
 
 import FoodlogListItem from './FoodlogListItem';
+import RecipeListItem from './RecipeListItem';
 import Router from '../../navigation/Router';
 import RootNavigation from '../../navigation/RootNavigation'
 
@@ -28,67 +30,58 @@ class FoodlogList extends React.Component {
     carbs: 0.0,
   }
 
-  componentWillMount() {
-    AsyncStorage.getItem('UserApiKey').then(key => {
-      fetch(ENV.BASE_URL + "/api/v1/foodlogs", {
-        headers: {
-          'CLIENT_KEY': ENV.CLIENT_KEY,
-          'api_key': key
-        }
-      })
-      .then(response => response.json())
-      // .then(json => { console.log(json) } )
-      .then(json => this.receivedRecipes(json) )
-    })
+  componentDidMount() {
     AsyncStorage.getItem('UserCalories').then( maxCalories => { this.setState({ maxCalories }) })
   }
 
-  calculateFats(){
-    let fats = 0;
-    for (var i=0; i<this.state.foodlogs.length; i++) {
-      fats += (this.state.foodlogs[i].recipe.fats * this.state.foodlogs[i].servings)
-    }
-    this.setState({ fats: Math.round((fats * 9000)/this.state.calories)/10 })
-  }
+  // calculateFats(){
+  //   let fats = 0;
+  //   for (var i=0; i<this.state.foodlogs.length; i++) {
+  //     fats += (this.state.foodlogs[i].recipe.fats * this.state.foodlogs[i].servings)
+  //   }
+  //   this.setState({ fats: Math.round((fats * 9000)/this.state.calories)/10 })
+  // }
+  //
+  // calculateCarbs(){
+  //   let carbs = 0;
+  //   for (var i=0; i<this.state.foodlogs.length; i++) {
+  //     carbs += (this.state.foodlogs[i].recipe.carbs * this.state.foodlogs[i].servings)
+  //   }
+  //   this.setState({ carbs: Math.round((carbs * 4000)/this.state.calories)/10 })
+  // }
+  //
+  // calculateProteins(){
+  //   this.setState({ proteins: 100 - (this.state.fats + this.state.carbs) })
+  // }
+  //
+  // calculateCalories(){
+  //   let calories = 0;
+  //   for (var i=0; i<this.state.foodlogs.length; i++) {
+  //     calories += (this.state.foodlogs[i].recipe.calories * this.state.foodlogs[i].servings)
+  //   }
+  //   this.setState({ calories })
+  // }
+  //
+  // receivedRecipes(data){
+  //   this.setState({
+  //     foodlogs: data,
+  //   })
+  //   this.calculateCalories();
+  //   if (this.state.calories > 0) {
+  //     this.calculateFats();
+  //     this.calculateCarbs();
+  //     this.calculateProteins();
+  //   }
+  // }
 
-  calculateCarbs(){
-    let carbs = 0;
-    for (var i=0; i<this.state.foodlogs.length; i++) {
-      carbs += (this.state.foodlogs[i].recipe.carbs * this.state.foodlogs[i].servings)
-    }
-    this.setState({ carbs: Math.round((carbs * 4000)/this.state.calories)/10 })
-  }
 
-  calculateProteins(){
-    this.setState({ proteins: 100 - (this.state.fats + this.state.carbs) })
-  }
 
-  calculateCalories(){
-    let calories = 0;
-    for (var i=0; i<this.state.foodlogs.length; i++) {
-      calories += (this.state.foodlogs[i].recipe.calories * this.state.foodlogs[i].servings)
-    }
-    this.setState({ calories })
-  }
-
-  receivedRecipes(data){
-    this.setState({
-      foodlogs: data,
-    })
-    this.calculateCalories();
-    if (this.state.calories > 0) {
-      this.calculateFats();
-      this.calculateCarbs();
-      this.calculateProteins();
-    }
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.scrollStyle}>
+  renderRecipes(){
+    if (this.props.foodlog !== "") {
+      return (
+      <ScrollView style={styles.scrollStyle}>
           {
-            this.state.foodlogs.map(foodlog => (
+            this.props.foodlog.map(foodlog => (
               <FoodlogListItem
                 servings={foodlog.servings}
                 foodlogId={foodlog.foodlog_id}
@@ -99,7 +92,18 @@ class FoodlogList extends React.Component {
             ))
           }
         </ScrollView>
+      )
+    } else {
+      return  <Text>No Recipes Added Yet Today</Text>
+    }
+  }
 
+
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.renderRecipes()}
         <View style={styles.statsStyle}>
           <View style={styles.statsTitleStyle}>
             <Text>Today's Goal</Text>
@@ -126,8 +130,13 @@ class FoodlogList extends React.Component {
 
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return { foodlog: state.foodlog, navigator: ownProps.navigator }
+}
 
-export default FoodlogList
+
+// export default FoodlogList
+export default connect(mapStateToProps)(FoodlogList)
 
 
 const styles = StyleSheet.create({

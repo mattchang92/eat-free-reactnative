@@ -12,9 +12,16 @@ export const loginUser = () => {
   };
 };
 
-export const updateFoodlog = () => {
+export const updateFoodlog = (response) => {
   return {
     type: 'access_foodlog',
-    payload: true
+    payload: response
   }
 }
+
+export const selectFoodlog = (foodlogId) => {
+  return {
+    type: 'select_foodlog',
+    payload: foodlogId
+  };
+};

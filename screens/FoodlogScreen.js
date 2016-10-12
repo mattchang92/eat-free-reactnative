@@ -10,10 +10,6 @@ class FoodlogScreen extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.props.updateFoodlog();
-  }
-
   render() {
     return <FoodlogList navigator={this.props.navigator} />
   }

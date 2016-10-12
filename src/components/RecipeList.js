@@ -25,7 +25,6 @@ class RecipeList extends React.Component {
   }
 
   renderRow(recipe) {
-
     return (
 
       <RecipeListItem

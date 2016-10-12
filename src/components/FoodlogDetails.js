@@ -25,7 +25,6 @@ import ENV from '../../app_keys';
 class FoodlogDetails extends React.Component {
 
   state = {
-    servings: "1",
     deleted: false,
   }
 
