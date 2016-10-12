@@ -64,7 +64,8 @@ class LoginForm extends React.Component {
     })
     .then(response => response.json())
     .then(json => this.props.updateFoodlog(json) )
-    // .then(json => this.receivedRecipes(json) )    AsyncStorage.setItem('UserApiKey', data.user.api_key)
+    // .then(json => this.receivedRecipes(json) )
+    AsyncStorage.setItem('UserApiKey', data.user.api_key)
 
     AsyncStorage.setItem('UserCalories', data.stats.calories.toString());
     this.props.loginUser();

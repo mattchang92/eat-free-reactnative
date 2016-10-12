@@ -28,34 +28,6 @@ class FoodlogDetails extends React.Component {
     deleted: false,
   }
 
-  removeRecipe() {
-
-    AsyncStorage.getItem('UserApiKey').then(key => {
-      fetch(ENV.BASE_URL + "/api/v1/foodlogs", {
-        method: 'DELETE',
-        headers: {
-          'CLIENT_KEY': ENV.CLIENT_KEY,
-          'API_KEY': key,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          foodlogId: this.props.foodlogId
-        })
-      })
-      .catch(() => { console.log('failed so badly') })
-      .then(response => response.json())
-      .then(response => {
-        if (response.success === true) {
-          this.setState({ deleted: true })
-          this.props.updateFoodlog()
-        }
-      })
-    })
-
-
-  }
-
   render() {
     let {
       name,

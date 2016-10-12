@@ -45,7 +45,7 @@ export default class RecipeListItem extends React.Component {
   }
 
   _handlePressRecipe = (recipe) => {
-    this.props.navigator.push(Router.getRoute('details', { recipe }));
+    this.props.navigator.push(Router.getRoute('addRecipe', { recipe }));
   }
 
 }

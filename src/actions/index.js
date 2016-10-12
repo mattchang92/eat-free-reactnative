@@ -25,3 +25,10 @@ export const selectFoodlog = (foodlogId) => {
     payload: foodlogId
   };
 };
+
+export const deselectFoodlog = () => {
+  return {
+    type: 'deselect_foodlog',
+    payload: null
+  };
+};

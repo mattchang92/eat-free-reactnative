@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import ENV from '../../app_keys'
+import * as actions from '../actions'
 
 import FoodlogListItem from './FoodlogListItem';
 import RecipeListItem from './RecipeListItem';
@@ -22,7 +23,7 @@ import RootNavigation from '../../navigation/RootNavigation'
 class FoodlogList extends React.Component {
 
   state = {
-    foodlogs: [],
+    foodlog: [],
     calories: 0,
     maxCalories: 0,
     fats: 0.0,
@@ -30,51 +31,61 @@ class FoodlogList extends React.Component {
     carbs: 0.0,
   }
 
+  componentWillMount(){
+    // DELETE AFTER
+    fetch("http://localhost:3000/api/v1/foodlogs", {
+      headers: {
+        'CLIENT_KEY': "5a9a23fb5c1ed67501149e179c49292299467b58c8cb84bb62f26a08ddd0f7db",
+        'api_key': "2757ec8696b96523b13af0f7821e7ed1e1dac05156007c3a7706ec4ae5accbe3"
+      }
+    })
+    .then(response => response.json())
+    // .then(json => {console.log(json)} )
+    .then(json => this.props.updateFoodlog(json) )
+  }
+
   componentDidMount() {
     AsyncStorage.getItem('UserCalories').then( maxCalories => { this.setState({ maxCalories }) })
   }
 
-  // calculateFats(){
-  //   let fats = 0;
-  //   for (var i=0; i<this.state.foodlogs.length; i++) {
-  //     fats += (this.state.foodlogs[i].recipe.fats * this.state.foodlogs[i].servings)
-  //   }
-  //   this.setState({ fats: Math.round((fats * 9000)/this.state.calories)/10 })
-  // }
-  //
-  // calculateCarbs(){
-  //   let carbs = 0;
-  //   for (var i=0; i<this.state.foodlogs.length; i++) {
-  //     carbs += (this.state.foodlogs[i].recipe.carbs * this.state.foodlogs[i].servings)
-  //   }
-  //   this.setState({ carbs: Math.round((carbs * 4000)/this.state.calories)/10 })
-  // }
-  //
-  // calculateProteins(){
-  //   this.setState({ proteins: 100 - (this.state.fats + this.state.carbs) })
-  // }
-  //
-  // calculateCalories(){
-  //   let calories = 0;
-  //   for (var i=0; i<this.state.foodlogs.length; i++) {
-  //     calories += (this.state.foodlogs[i].recipe.calories * this.state.foodlogs[i].servings)
-  //   }
-  //   this.setState({ calories })
-  // }
-  //
-  // receivedRecipes(data){
-  //   this.setState({
-  //     foodlogs: data,
-  //   })
-  //   this.calculateCalories();
-  //   if (this.state.calories > 0) {
-  //     this.calculateFats();
-  //     this.calculateCarbs();
-  //     this.calculateProteins();
-  //   }
-  // }
+  calculateFats(){
+    let fats = 0;
+    for (var i=0; i<this.state.foodlog.length; i++) {
+      fats += (this.state.foodlog[i].recipe.fats * this.state.foodlog[i].servings)
+    }
+    this.setState({ fats: Math.round((fats * 9000)/this.state.calories)/10 })
+  }
 
+  calculateCarbs(){
+    let carbs = 0;
+    for (var i=0; i<this.state.foodlog.length; i++) {
+      carbs += (this.state.foodlog[i].recipe.carbs * this.state.foodlog[i].servings)
+    }
+    this.setState({ carbs: Math.round((carbs * 4000)/this.state.calories)/10 })
+  }
 
+  calculateProteins(){
+    this.setState({ proteins: 100 - (this.state.fats + this.state.carbs) })
+  }
+
+  calculateCalories(){
+    let calories = 0;
+    for (var i=0; i<this.state.foodlog.length; i++) {
+      calories += (this.state.foodlog[i].recipe.calories * this.state.foodlog[i].servings)
+    }
+    this.setState({ calories })
+  }
+
+  componentWillReceiveProps(){
+    this.setState({ foodlog: this.props.foodlog })
+    // console.log(this.state)
+    // this.calculateCalories();
+    // if (this.state.calories > 0) {
+    //   this.calculateFats();
+    //   this.calculateCarbs();
+    //   this.calculateProteins();
+    // }
+  }
 
   renderRecipes(){
     if (this.props.foodlog !== "") {
@@ -136,7 +147,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 // export default FoodlogList
-export default connect(mapStateToProps)(FoodlogList)
+export default connect(mapStateToProps, actions)(FoodlogList)
 
 
 const styles = StyleSheet.create({
@@ -148,7 +159,7 @@ const styles = StyleSheet.create({
     flex: 8,
   },
   statsStyle: {
-    flex: 3,
+    flex: 2,
   },
   statsTitleStyle: {
     alignItems: 'center',

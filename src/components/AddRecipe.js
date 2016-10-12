@@ -22,7 +22,7 @@ import { Button, CardSection, LabelledInput } from './common'
 import Router from '../../navigation/Router';
 import ENV from '../../app_keys';
 
-class RecipeDetails extends React.Component {
+class AddRecipe extends React.Component {
 
   state = {
     servings: "1",
@@ -82,9 +82,22 @@ class RecipeDetails extends React.Component {
         >
           <Text style={styles.recipeNameStyle}>{name}</Text>
           <Text>{ingredients}</Text>
+          <CardSection>
+            <LabelledInput
+              label="Servings"
+              placeholder="1"
+              value={this.state.servings}
+              onChangeText={servings => this.setState({ servings })}
+            />
+          </CardSection>
           <Text>
             {this._renderMessage()}
           </Text>
+          <CardSection>
+            <Button onPress={this.addRecipe.bind(this)}>
+              Add This Recipe
+            </Button>
+          </CardSection>
           <View style={{height: 1000, width: 320}}>
           </View>
         </ScrollView>
@@ -162,4 +175,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect(null, actions)(RecipeDetails)
+export default connect(null, actions)(AddRecipe)

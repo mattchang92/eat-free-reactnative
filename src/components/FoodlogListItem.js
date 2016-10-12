@@ -6,10 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   LayoutAnimation,
+  AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { CardSection } from './common';
+import { CardSection, Button } from './common';
+import ENV from '../../app_keys';
+import RecipeDetails from './RecipeDetails';
 
 import Layout from '../../constants/Layout';
 import { RegularText, BoldText } from './StyledText';
@@ -19,8 +22,8 @@ import Router from '../../navigation/Router';
 class FoodlogListItem extends React.Component {
 
   componentWillUpdate() {
-    // LayoutAnimation.configureNext(CustomLayoutAnimation);
     LayoutAnimation.spring();
+    // LayoutAnimation.easeInEaseOut();
   }
 
   render() {
@@ -58,7 +61,33 @@ class FoodlogListItem extends React.Component {
   }
 
   onRecipeClick(){
-    this.props.selectFoodlog(this.props.foodlogId)
+    if (this.props.selectedFoodlogId === this.props.foodlogId) {
+      this.props.deselectFoodlog()
+    } else {
+      this.props.selectFoodlog(this.props.foodlogId)
+    }
+  }
+
+  removeRecipe() {
+    AsyncStorage.getItem('UserApiKey').then(key => {
+      fetch(ENV.BASE_URL + "/api/v1/foodlogs", {
+        method: 'DELETE',
+        headers: {
+          'CLIENT_KEY': ENV.CLIENT_KEY,
+          'API_KEY': key,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          foodlogId: this.props.foodlogId
+        })
+      })
+      .catch(() => { console.log('failed so badly') })
+      .then(response => response.json())
+      .then(response => {
+        this.props.updateFoodlog(response);
+      })
+    })
   }
 
   renderDetails() {
@@ -67,14 +96,22 @@ class FoodlogListItem extends React.Component {
     if (expanded) {
       return (
         <CardSection>
-          <Text style={{flex: 1}}>
-            Hello World
-          </Text>
+          <View style={styles.buttonsContainer}>
+            <View style={styles.detailsButtonContainer}>
+              <Button onPress={() => {this.handlePressRecipe(this.props.recipe); console.log(this)}}>View Details</Button>
+            </View>
+            <View style={styles.deleteButtonContainer}>
+              <TouchableOpacity onPress={this.removeRecipe.bind(this)} style={styles.buttonStyle}>
+                <Text style={styles.textStyle}>
+                  Remove This Recipe
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </CardSection>
       );
     }
   }
-
 
   calculateCalories(){
     let calories = this.props.recipe.calories;
@@ -82,15 +119,20 @@ class FoodlogListItem extends React.Component {
     return calories * servings
   }
 
-  _handlePressRecipe = (recipe, foodlogId) => {
-    this.props.navigator.push(Router.getRoute('foodlogDetails', { recipe, foodlogId }));
+  handlePressRecipe = (recipe) => {
+    this.props.navigator.push(Router.getRoute('details', { recipe }));
   }
 
 }
 
 const mapStateToProps = (state, ownProps) => {
   const expanded =  state.selectedFoodlogId === ownProps.foodlogId
-  return { expanded, recipe: ownProps.recipe, foodlogId: ownProps.foodlogId }
+  return {  expanded,
+            recipe: ownProps.recipe,
+            foodlogId: ownProps.foodlogId,
+            selectedFoodlogId: state.selectedFoodlogId,
+            navigator: ownProps.navigator
+          }
 }
 
 
@@ -117,4 +159,32 @@ const styles = StyleSheet.create({
     width: 135,
     height: 75,
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  detailsButtonContainer: {
+    flex: 1,
+  },
+  deleteButtonContainer: {
+    flex: 1,
+  },
+  buttonStyle: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 5,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  textStyle: {
+    alignSelf: 'center',
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 10,
+    paddingBottom: 10
+  }
 });
