@@ -98,7 +98,7 @@ class FoodlogListItem extends React.Component {
         <CardSection>
           <View style={styles.buttonsContainer}>
             <View style={styles.detailsButtonContainer}>
-              <Button onPress={() => {this.handlePressRecipe(this.props.recipe); console.log(this)}}>View Details</Button>
+              <Button onPress={() => {this.handlePressRecipe(this.props.recipe)}}>View Details</Button>
             </View>
             <View style={styles.deleteButtonContainer}>
               <TouchableOpacity onPress={this.removeRecipe.bind(this)} style={styles.buttonStyle}>

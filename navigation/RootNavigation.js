@@ -45,9 +45,9 @@ class RootNavigation extends React.Component {
         </TabNavigationItem>
 
         <TabNavigationItem
-          id="details"
+          id="stats"
           renderIcon={isSelected => this._renderIonicon('My Profile', 'ios-person-outline', isSelected)}>
-          <StackNavigation initialRoute={Router.getRoute('login')} />
+          <StackNavigation initialRoute={Router.getRoute('stats')} />
         </TabNavigationItem>
 
         <TabNavigationItem

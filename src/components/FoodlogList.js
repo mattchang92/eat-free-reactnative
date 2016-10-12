@@ -11,9 +11,10 @@ import {
   Text,
   View,
 } from 'react-native';
+import { Spinner, CardSection } from './common';
 import { connect } from 'react-redux';
-import ENV from '../../app_keys'
-import * as actions from '../actions'
+import ENV from '../../app_keys';
+import * as actions from '../actions';
 
 import FoodlogListItem from './FoodlogListItem';
 import RecipeListItem from './RecipeListItem';
@@ -50,47 +51,36 @@ class FoodlogList extends React.Component {
 
   calculateFats(){
     let fats = 0;
-    for (var i=0; i<this.state.foodlog.length; i++) {
-      fats += (this.state.foodlog[i].recipe.fats * this.state.foodlog[i].servings)
+    for (var i=0; i<this.props.foodlog.length; i++) {
+      fats += (this.props.foodlog[i].recipe.fats * this.props.foodlog[i].servings)
     }
-    this.setState({ fats: Math.round((fats * 9000)/this.state.calories)/10 })
+    return (Math.round((fats * 9000)/this.calculateCalories())/10)
   }
 
   calculateCarbs(){
     let carbs = 0;
-    for (var i=0; i<this.state.foodlog.length; i++) {
-      carbs += (this.state.foodlog[i].recipe.carbs * this.state.foodlog[i].servings)
+    for (var i=0; i<this.props.foodlog.length; i++) {
+      carbs += (this.props.foodlog[i].recipe.carbs * this.props.foodlog[i].servings)
     }
-    this.setState({ carbs: Math.round((carbs * 4000)/this.state.calories)/10 })
+    return (Math.round((carbs * 4000)/this.calculateCalories())/10)
   }
 
   calculateProteins(){
-    this.setState({ proteins: 100 - (this.state.fats + this.state.carbs) })
+    return Math.round(10*(100 - this.calculateCarbs() - this.calculateFats() ))/10;
   }
 
   calculateCalories(){
     let calories = 0;
-    for (var i=0; i<this.state.foodlog.length; i++) {
-      calories += (this.state.foodlog[i].recipe.calories * this.state.foodlog[i].servings)
+    for (var i=0; i<this.props.foodlog.length; i++) {
+      calories += (this.props.foodlog[i].recipe.calories * this.props.foodlog[i].servings)
     }
-    this.setState({ calories })
-  }
-
-  componentWillReceiveProps(){
-    this.setState({ foodlog: this.props.foodlog })
-    // console.log(this.state)
-    // this.calculateCalories();
-    // if (this.state.calories > 0) {
-    //   this.calculateFats();
-    //   this.calculateCarbs();
-    //   this.calculateProteins();
-    // }
+    return calories;
   }
 
   renderRecipes(){
     if (this.props.foodlog !== "") {
       return (
-      <ScrollView style={styles.scrollStyle}>
+        <ScrollView style={styles.scrollStyle}>
           {
             this.props.foodlog.map(foodlog => (
               <FoodlogListItem
@@ -109,32 +99,40 @@ class FoodlogList extends React.Component {
     }
   }
 
-
-
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.renderRecipes()}
+  renderStats(){
+    if (this.props.foodlog === "") {
+      return <Spinner size="small"/>
+    } else {
+      return  (
         <View style={styles.statsStyle}>
           <View style={styles.statsTitleStyle}>
             <Text>Today's Goal</Text>
-            <Text>Currently at: {this.state.calories}/{this.state.maxCalories} calories</Text>
+            <Text>Currently at: {this.calculateCalories()}/{this.state.maxCalories} calories</Text>
           </View>
           <View style={styles.macrosTitleStyle}>
             <Text>Calorie Composition</Text>
           </View>
           <View style={styles.macrosContainerStyle}>
             <View style={styles.macrosStyle}>
-              <Text>Fats: {this.state.fats}%</Text>
+              <Text>Fats: {this.calculateFats()}%</Text>
             </View>
             <View style={styles.macrosStyle}>
-              <Text>Carbs: {this.state.carbs}%</Text>
+              <Text>Carbs: {this.calculateCarbs()}%</Text>
             </View>
             <View style={styles.macrosStyle}>
-              <Text>Proteins: {this.state.proteins}%</Text>
+              <Text>Proteins: {this.calculateProteins()}%</Text>
             </View>
           </View>
         </View>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        {this.renderRecipes()}
+        {this.renderStats()}
       </View>
     );
   }
