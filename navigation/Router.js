@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import RootNavigation from './RootNavigation';
 import RecipeListScreen from '../screens/RecipeListScreen';
 import RecipeDetailsScreen from '../screens/RecipeDetailsScreen';
+import FoodlogDetailsScreen from '../screens/FoodlogDetailsScreen';
 import FoodlogScreen from '../screens/FoodlogScreen'
 // import {
 //   NavigationProvider,
@@ -26,5 +27,6 @@ export default createRouter(() => ({
   rootNavigation: () => RootNavigation,
   list: () => RecipeListScreen,
   details: () => RecipeDetailsScreen,
+  foodlogDetails: () => FoodlogDetailsScreen,
   foodlog: () => FoodlogScreen,
 }));

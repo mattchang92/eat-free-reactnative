@@ -19,7 +19,6 @@ export default class FoodlogListItem extends React.Component {
       name,
       ingredients,
       calories,
-      servings,
       fats,
       carbs,
       proteins,
@@ -27,9 +26,10 @@ export default class FoodlogListItem extends React.Component {
       photo,
       directions,
     } = this.props.recipe;
+    let { servings } = this.props;
 
     return (
-      <TouchableOpacity onPress={() => {this._handlePressRecipe(this.props.recipe)}} style={styles.container}>
+      <TouchableOpacity onPress={() => {this._handlePressRecipe(this.props.recipe, this.props.foodlogId)}} style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
             resizeMode="cover"
@@ -40,13 +40,14 @@ export default class FoodlogListItem extends React.Component {
         <View style={styles.infoContainer}>
           <Text>{name}</Text>
           <Text>{calories} calories per serving</Text>
+          <Text>{servings} total servings</Text>
         </View>
       </TouchableOpacity>
     );
   }
 
-  _handlePressRecipe = (recipe) => {
-    this.props.navigator.push(Router.getRoute('details', { recipe }));
+  _handlePressRecipe = (recipe, foodlogId) => {
+    this.props.navigator.push(Router.getRoute('foodlogDetails', { recipe, foodlogId }));
   }
 
 }
