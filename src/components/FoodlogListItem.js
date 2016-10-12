@@ -4,6 +4,7 @@ import {
   Image,
   Text,
   StyleSheet,
+  TouchableHighlight,
   TouchableOpacity,
   LayoutAnimation,
   AsyncStorage,
@@ -22,8 +23,8 @@ import Router from '../../navigation/Router';
 class FoodlogListItem extends React.Component {
 
   componentWillUpdate() {
-    LayoutAnimation.spring();
-    // LayoutAnimation.easeInEaseOut();
+    // LayoutAnimation.spring();
+    LayoutAnimation.easeInEaseOut();
   }
 
   render() {

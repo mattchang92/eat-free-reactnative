@@ -5,6 +5,7 @@ export default class RecipeListScreen extends React.Component {
   static route = {
     navigationBar: {
       title: 'Recipes',
+      backgroundColor: '#007aff'
     }
   }
 

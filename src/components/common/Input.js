@@ -24,10 +24,10 @@ const Input = (props) => {
 const styles = {
   inputStyle: {
     paddingRight: 5,
-    paddingLeft: 5,
+    paddingLeft: 15,
     fontSize: 18,
     lineHeight: 23,
-    flex: 2
+    flex: 2,
   },
   container: {
     height: 40,

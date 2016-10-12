@@ -16,6 +16,7 @@ const style = {
     padding: 5,
     paddingLeft: 15,
     paddingRight: 15,
+    opacity: 0.9,
     backgroundColor: "transparent",
     // justifyContent: 'flex-start',
     flexDirection: 'row',

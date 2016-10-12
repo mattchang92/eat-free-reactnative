@@ -9,6 +9,7 @@ import {
   StyleSheet,
   AsyncStorage,
   ListView,
+  View,
 } from 'react-native';
 
 import RecipeListItem from './RecipeListItem';
@@ -38,9 +39,12 @@ class RecipeList extends React.Component {
   render() {
 
     return (
-      <ListView dataSource={this.dataSource}
-                renderRow={this.renderRow.bind(this)}
-      />
+      <View style={styles.container}>
+        <View style={styles.scrollStyle}>
+          <ListView dataSource={this.dataSource}
+            renderRow={this.renderRow.bind(this)}/>
+        </View>
+      </View>
     )
 }
 
@@ -56,6 +60,16 @@ export default connect(mapStateToProps)(RecipeList)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FBFBFB',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    padding: 5,
+  },
+  scrollStyle: {
+    flex: 8,
+    backgroundColor: "white",
+    borderRadius: 3,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    elevation: 2,
   },
 });

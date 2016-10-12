@@ -106,21 +106,23 @@ class FoodlogList extends React.Component {
       return  (
         <View style={styles.statsStyle}>
           <View style={styles.statsTitleStyle}>
-            <Text>Today's Goal</Text>
-            <Text>Currently at: {this.calculateCalories()}/{this.state.maxCalories} calories</Text>
+            <Text style={styles.sectionTitle1}>Today's Goal</Text>
+            <Text style={styles.mainInfo}>Currently at: {this.calculateCalories()}/{this.state.maxCalories} calories</Text>
           </View>
-          <View style={styles.macrosTitleStyle}>
-            <Text>Calorie Composition</Text>
-          </View>
-          <View style={styles.macrosContainerStyle}>
-            <View style={styles.macrosStyle}>
-              <Text>Fats: {this.calculateFats()}%</Text>
+          <View style={styles.macros}>
+            <View style={styles.macrosTitleStyle}>
+              <Text style={styles.sectionTitle2}>Calorie Composition</Text>
             </View>
-            <View style={styles.macrosStyle}>
-              <Text>Carbs: {this.calculateCarbs()}%</Text>
-            </View>
-            <View style={styles.macrosStyle}>
-              <Text>Proteins: {this.calculateProteins()}%</Text>
+            <View style={styles.macrosContainerStyle}>
+              <View style={styles.macrosStyle}>
+                <Text style={styles.mainInfo}>Fats: {this.calculateFats()}%</Text>
+              </View>
+              <View style={styles.macrosStyle}>
+                <Text style={styles.mainInfo}>Carbs: {this.calculateCarbs()}%</Text>
+              </View>
+              <View style={styles.macrosStyle}>
+                <Text style={styles.mainInfo}>Proteins: {this.calculateProteins()}%</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -143,7 +145,6 @@ const mapStateToProps = (state, ownProps) => {
   return { foodlog: state.foodlog, navigator: ownProps.navigator }
 }
 
-
 // export default FoodlogList
 export default connect(mapStateToProps, actions)(FoodlogList)
 
@@ -151,19 +152,55 @@ export default connect(mapStateToProps, actions)(FoodlogList)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FBFBFB',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    padding: 5,
   },
   scrollStyle: {
     flex: 8,
+    backgroundColor: "white",
+    marginBottom: 5,
+    borderRadius: 3,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    elevation: 2,
   },
   statsStyle: {
     flex: 2,
+    backgroundColor: 'rgba(0, 122, 255, 0.2)',
+    // backgroundColor: 'white',
+    borderColor: '#007aff',
+    borderWidth: 2,
+    borderRadius: 3,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    elevation: 2,
   },
   statsTitleStyle: {
     alignItems: 'center',
+    flex: 1,
+  },
+  sectionTitle1: {
+    paddingTop: 6,
+    paddingBottom: 3,
+    fontSize: 17,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    // color: '#007aff',
+  },
+  sectionTitle2: {
+    paddingBottom: 5,
+    fontSize: 17,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    // color: '#007aff',
   },
   macrosTitleStyle: {
     alignItems: 'center',
+  },
+  macros: {
+    flex: 1,
   },
   macrosContainerStyle: {
     flexDirection: 'row',
@@ -172,5 +209,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mainInfo: {
+    fontStyle: 'italic',
+    // color: '#007aff',
   }
 });

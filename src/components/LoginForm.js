@@ -97,8 +97,8 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <Card style={styles.container}>
-        <CardSection style={{backgroundColor: 'transparent'}}>
+      <Card>
+        <CardSection>
           <Input
             style={styles.container}
             placeholder="Email"
@@ -140,9 +140,6 @@ const styles = {
     alignSelf: 'center',
     color: 'red'
   },
-  container: {
-    backgroundColor: 'transparent',
-  }
 }
 
 export default connect(null, actions)(LoginForm);

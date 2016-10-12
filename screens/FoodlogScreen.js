@@ -7,6 +7,7 @@ class FoodlogScreen extends React.Component {
   static route = {
     navigationBar: {
       title: "Today's Log",
+      backgroundColor: '#007aff'
     }
   }
 

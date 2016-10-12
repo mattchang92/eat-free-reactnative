@@ -8,6 +8,7 @@ export default class LinksScreen extends React.Component {
   static route = {
     navigationBar: {
       title: 'My Stats',
+      backgroundColor: '#007aff'
     },
   }
   render() {
